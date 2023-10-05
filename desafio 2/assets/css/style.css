@@ -1,0 +1,25 @@
+
+div.header {
+    display: flex;
+    object-fit: cover;
+    width: 100%;
+    height: 200px;
+        }
+
+div.body {
+    display: flex;
+        }
+
+div.footer {
+    text-align: center;
+    display: flex;
+    width: 90%; 
+    padding: 12px;
+    background-image: gray;
+    border: 4px black;
+    border-radius: 12px;
+    }
+
+img.imgs {
+    max-width: 300px;
+    }
