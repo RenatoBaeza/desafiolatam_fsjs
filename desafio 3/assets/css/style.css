@@ -1,0 +1,49 @@
+body {
+    background-color: black;
+    font-family: Raleway, Helvetica, Arial;
+    color: white;
+    text-align: center;
+}
+
+/* 1er div */
+h1.titulo{
+    font-size: 3.125em;
+}
+
+/* 2do div */
+/* TBD */
+
+/* 3er div */
+div.descripcion {
+    display: inline-block;
+
+}
+
+    p.descripcion {
+        white-space: normal; /* or normal or pre */
+    }
+
+/* 4to div */
+div.caracteristicas {
+    background-color: #221e17;
+    display: inline-block;
+}
+
+table.caracteristicas {
+
+}
+
+/* 5to div */
+div.tresiguanas {
+
+
+}
+
+/* 6to div */
+div.footer {
+    height: 100px;
+    background-color: #221e17;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
