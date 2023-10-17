@@ -6,38 +6,68 @@ body {
 }
 
 /* 1er div */
+div.titulo {
+    height: 73px;
+}
+
 h1.titulo{
     font-size: 3.125em;
 }
 
 /* 2do div */
-/* TBD */
+/* Nada */
 
 /* 3er div */
 div.descripcion {
-    display: inline-block;
-
-}
+    display: flex;
+    justify-content: space-around;
+    height: 350px;
+    }
 
     p.descripcion {
         white-space: normal; /* or normal or pre */
+        text-align: left;
+        font-size: 1em;
+        margin: 50px;
+        font-style: lighter;
+    }
+
+    img.descripcion {
+        width: 400px;
+        height: 237px;
+        padding: 50px;
     }
 
 /* 4to div */
 div.caracteristicas {
     background-color: #221e17;
-    display: inline-block;
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
 
-table.caracteristicas {
+    h2.caracteristicas {
+        display: block;
+        font-size: 2.625em;
+    }
 
-}
+    div.flexitems {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 50px;
+    }
 
 /* 5to div */
 div.tresiguanas {
-
-
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
 }
+
+    img.tresiguanas {
+        width: 230px;
+        margin: 10px;
+    }
 
 /* 6to div */
 div.footer {
@@ -47,3 +77,7 @@ div.footer {
     justify-content: center;
     align-items: center;
 }
+
+    p.footer {
+        font-size: 1.25em;
+    }
