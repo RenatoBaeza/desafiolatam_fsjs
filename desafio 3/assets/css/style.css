@@ -6,11 +6,11 @@ body {
 }
 
 /* 1er div */
-div.titulo {
+header {
     height: 73px;
 }
 
-h1.titulo{
+h1.titulo {
     font-size: 3.125em;
 }
 
@@ -70,7 +70,7 @@ div.tresiguanas {
     }
 
 /* 6to div */
-div.footer {
+footer {
     height: 100px;
     background-color: #221e17;
     display: flex;
