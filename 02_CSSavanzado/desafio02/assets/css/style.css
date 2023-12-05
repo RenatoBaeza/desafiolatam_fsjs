@@ -32,7 +32,7 @@
 
 .footer {
 	grid-area: footer;
-  background-color: whitesmoke;
+  background-color: whitesmoke;  
   width: 100%;
   text-align: center;
 }
