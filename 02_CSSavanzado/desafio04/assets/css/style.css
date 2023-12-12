@@ -1,0 +1,207 @@
+/* Mobile */
+@media (max-width: 576px) {
+  .dissappearmobile {
+    display: none;
+  }
+
+  .grid-container {
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    display: grid;
+    grid-template-areas:
+      'header'
+      'sorter'
+      'main'
+      'pages'
+      'footer';
+  }
+
+  .header {
+    grid-area: header;
+    background-color: coral;
+    justify-content: space-around;
+    color: white;
+    display: flex;
+    align-items: center;
+  }
+
+  .electriccarslogo {
+    display: flex;
+    align-items: center;
+  }
+
+  .sorter {
+    grid-area: sorter;
+    background-color: lightgray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 5%;
+  }
+  
+  select {
+    width: 80%;
+  }
+
+  .main{
+    grid-area: main;
+  }
+
+  .grid-product-container {
+    align-items: center;
+    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+  
+  .product-grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pizzaimage {
+    object-fit: cover;
+    width: 300px;
+    height: auto; 
+    transition: filter 0.5s ease;
+  }
+
+  .pizzaimage:hover {
+    filter: grayscale(100%);
+  }
+
+  .pages {
+    grid-area: pages;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    color: black;
+  }
+
+  .pager {
+    color: royalblue;
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 2px;
+    padding: 3%;
+  }
+
+  .footer {
+    grid-area: footer;
+    background-color: orange;
+    text-align: center;
+    flex-direction: column;
+    padding-top: 7%;
+  }
+  
+  h5 {
+    color: white;
+  }
+
+}
+
+/* Desktop */
+@media (min-width: 576px) {
+
+  .dissappeardesktop {
+    display: none;
+  }
+
+  .grid-container {
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    display: grid;
+    grid-template-areas:
+      'header sorter'
+      'header main'
+      'footer pages';
+  }
+
+  .header {
+    grid-area: header;
+    background-color: coral;
+    justify-content: flex-start;
+    color: white;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    max-width: 280px;
+  }
+
+  .electriccarslogo {
+    display: flex;
+    align-items: center;
+  }
+
+  .sorter {
+    grid-area: sorter;
+    background-color: lightgray;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 5%;
+  }
+  
+  select {
+    width: 80%;
+  }
+
+  .main{
+    grid-area: main;
+  }
+
+  .grid-product-container {
+    align-items: center;
+    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  
+  .product-grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pizzaimage {
+    object-fit: cover;
+    width: 300px;
+    height: auto; 
+    transition: filter 0.5s ease;
+  }
+
+  .pizzaimage:hover {
+    filter: grayscale(100%);
+  }
+  
+  .pages {
+    grid-area: pages;
+    display: flex;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    color: black;
+  }
+
+  .footer {
+    grid-area: footer;
+    background-color: orange;
+    text-align: center;
+    flex-direction: column;
+    padding-top: 7%;
+    max-width: 280px;
+  }
+
+  .logos {
+    display: flex;
+    justify-content: center;
+  }
+
+  h5 {
+    color: white;
+  }
+
+}
