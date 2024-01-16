@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafío 1 - JavaScript</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+    <section>
+        <div>
+                        
+            <h1>Requerimiento 1</h1>
+            <img src="coolcharizard.jpg" 
+                alt="Imagen de Charizard"
+                onclick="
+                    charizardSection = document.querySelector('#Charizard');
+                    if (charizardclick == 1) {
+                    charizardSection.style.border = 'solid red'
+                    charizardSection.style.borderWidth = '2px'
+                    charizardclick = charizardclick + 1
+                    }
+                    else {
+                    charizardSection.style.border = '0px'
+                    charizardclick = charizardclick - 1
+                    }
+                    "
+                id= "Charizard"
+                class="Charizard"
+                >
+
+            
+            <h1>Requerimiento 2</h1>
+            <p>Puedes llevar hasta 10 stickers</p>
+            
+            <img src="knight.gif" width="200">
+            <input name="sticker1" id="sticker1">
+            
+            <img src="mercader.gif" width="200">
+            <input name="sticker2" id="sticker2">
+            
+            <img src="walking.gif" width="200">
+            <input name="sticker3" id="sticker3">
+            
+            <button onclick="
+            sticker1value = document.querySelector('#sticker1').value
+            sticker2value = document.querySelector('#sticker2').value
+            sticker3value = document.querySelector('#sticker3').value
+            stickers = parseInt(sticker1value) + parseInt(sticker2value) + parseInt(sticker3value)
+            h2 = document.querySelector('h2')
+            
+            if (stickers> 10){
+                h2.innerHTML = 'Llevas ' + stickers +'! No pueden ser más de 10'
+            }
+            else {
+                h2.innerHTML = 'Muy bien! Llevas ' + stickers + ' stickers'
+            }
+            
+            ">
+            Verificar</button>
+            
+            <h2></h2>         
+            
+            <h1>Requerimiento 3</h1>
+            <h3>Ingresa la contraseña</h3>  
+            <select name="num1" id="num1">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+            </select>
+
+            <select name="num2" id="num2">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+            </select>
+
+            <select name="num3" id="num3">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+            </select>
+
+            <button onclick="
+                val1 = document.querySelector('#num1').value
+                val2 = document.querySelector('#num2').value
+                val3 = document.querySelector('#num3').value     
+                vals = val1 + val2 + val3
+                h4 = document.querySelector('h4')
+
+                if (vals == '911') {
+                    h4.innerHTML = 'La primera clave ' + vals +' es correcta!'
+                }
+                else if (vals == '714') {
+                    h4.innerHTML = 'La segunda clave ' + vals +' es correcta!'
+                }
+                else {
+                    h4.innerHTML = 'La clave ingresada ' + vals +' es incorrecta...'
+                }
+            ">
+            Ingresar</button>
+            <h4></h4>
+
+            </div>
+
+        </div>
+    </section>
+
+    <script src="index.js"></script>
+</body>
+</html>
