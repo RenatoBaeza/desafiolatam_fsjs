@@ -1,4 +1,4 @@
-example = function (a, b, c) {
+const example = function (a, b, c) {
     return console.log(a + b + c);
 };
 
