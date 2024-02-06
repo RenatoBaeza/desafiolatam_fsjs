@@ -1,0 +1,9 @@
+main {
+    align-items: center;
+    justify-content: start;
+    text-align: center;
+    border: 1px black;
+    background-color: lightgray;
+    margin: 20px;
+    padding: 20px;
+}
