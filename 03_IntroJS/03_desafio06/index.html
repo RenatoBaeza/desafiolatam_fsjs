@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Desafío 5 - To do list</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"/>
+  </head>
+
+  <body>
+    <main class="container mt-4">
+
+      <div class="text-center mb-4">
+        <h1>Todo List</h1>
+        <hr>
+      </div>
+
+      <div class="mb-3">
+        <label for="input" class="form-label">Nueva Tarea</label>
+        <div class="input-group">
+          <input type="text" id="input" class="form-control" placeholder="Ingresa una tarea...">
+          <button onclick="agregarTarea()" class="btn btn-primary">Agregar</button>
+        </div>
+      </div>
+
+      <p class="totaltareas"></p>
+      <p class="tareasrealizadas"></p>
+
+      <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Tarea</th>
+                <th>Estado</th>
+                <th>Eliminar</th>
+              </tr>
+            </thead>
+            <tbody class="tablatareas">
+            </tbody>
+          </table>
+      </div>
+    </main>
+
+    <!-- Importar script del desafio -->
+    <script src="script.js"></script>
+
+    <!-- Fontawesome -->
+    <script src="https://kit.fontawesome.com/f5bdbb41e0.js" crossorigin="anonymous"></script>
+
+    <!-- Importar Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" 
+        crossorigin="anonymous"></script>
+  
+  </body>
+</html>
