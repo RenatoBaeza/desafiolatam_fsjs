@@ -27,21 +27,20 @@
 
               <div class="form-group">
                 <label for="currency">Moneda a convertir:</label>
-                <select class="form-control" id="currency">
-                  <option>Euro</option>
-                  <option>Dolar</option>
-                  <option>Bitcoin</option>
+                <select class="form-control" id="currency" onchange="mostrarHistorialMoneda()">
+                  <option value="euro">Euro</option>
+                  <option value="dolar">Dólar</option>
+                  <option value="dolar_intercambio">Dólar intercambio</option>
+                  <option value="uf">UF</option>
+                  <option value="bitcoin">Bitcoin</option>
                 </select>
               </div>
-
-              <button onclick="calcularCambio(event)" type="submit" class="btn btn-primary">Buscar</button>
-
+              <button onclick="calcularCambio()" type="button" class="btn btn-primary">Buscar</button>
             </form>
-
           </div>
 
           <div class="col-md-6">
-            <p class="mt-4">Resultado: <span id="conversionResult"></span></p>
+            <p class="mt-4">Resultado: <span id="resultado"></span></p>
           </div>
 
         </div>
@@ -56,11 +55,7 @@
 
   <!-- Importar script del desafio -->
   <script src="script.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-  <script>
-    // JavaScript code to initialize the chart goes here
-  </script>
 </body>
 
 </html>
