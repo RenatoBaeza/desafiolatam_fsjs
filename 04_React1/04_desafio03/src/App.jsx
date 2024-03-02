@@ -7,15 +7,14 @@ import Buscador from "./assets/components/Buscador";
 import { Container, Row, Col } from "react-bootstrap";
 import "./App.css";
 
-
 function App() {
   return (
-    <Container className="bg-success mw-100 p-5">
+    <Container className="bg-primary mw-100 p-5">
       <Row className="justify-content-center ">
         <Col xs={12} md={6} className="p-4 border rounded bg-light">
-
-
-
+          <Buscador />
+          <Listado />
+          <Formulario />
         </Col>
       </Row>
     </Container>
