@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Button } from "react-bootstrap";
 
-const SocialButton = ({iconA, iconB, iconC}) => {
+const Listado = ({iconA, iconB, iconC}) => {
     return (
         <div className="mb-3">
             <Button variant="outline-primary" className="m-1 rounded-circle"><i className={iconA}></i></Button>
@@ -11,4 +11,4 @@ const SocialButton = ({iconA, iconB, iconC}) => {
     )
 };
 
-export default SocialButton;
+export default Listado;
