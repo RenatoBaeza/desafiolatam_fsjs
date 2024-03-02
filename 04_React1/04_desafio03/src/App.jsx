@@ -15,6 +15,7 @@ function App() {
           <Buscador />
           <Listado />
           <Formulario />
+          <Alert />
         </Col>
       </Row>
     </Container>
