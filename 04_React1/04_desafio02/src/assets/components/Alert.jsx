@@ -1,9 +1,15 @@
-/* eslint-disable react/prop-types */
 import "bootstrap/dist/css/bootstrap.min.css";
-const Alert = () => {
+import { useState } from "react";
+
+const Alert = ({ showAlert, CorrectCreation }) => {
     return (
         <>
-            <p className="text-danger pt-3"> Completa todos los campos! </p>
+            {showAlert ? 
+                CorrectCreation ? 
+                    <p className="m-2 p-2 text-light bg-success rounded">¡Cuenta creada exitosamente!</p>
+                    : <p className="m-2 p-2 text-light bg-danger rounded">Hay campos incorrectos</p>
+                : ""
+            }
         </>
     )
 };
