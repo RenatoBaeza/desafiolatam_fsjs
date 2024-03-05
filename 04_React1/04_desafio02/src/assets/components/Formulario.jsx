@@ -7,15 +7,15 @@ const Formulario = ({ setShowAlert, setCorrectCreation }) => {
     const [pass, setPass] = useState('');
     const [passcheck, setPasscheck] = useState('');
 
-function Registration(e) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    e.preventDefault()
-    setShowAlert(true)
-    if ((name === '') || (email === '') || (pass === '') || (passcheck === '')) {console.log('Missing parameter')}
-    else if (pass != passcheck) {console.log('Passwords dont match')}
-    else if (!emailRegex.test(email)) {console.log('Invalid email')}
-    else {setCorrectCreation(true)}
-}
+    function Registration(e) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        e.preventDefault()
+        setShowAlert(true)
+        if ((name === '') || (email === '') || (pass === '') || (passcheck === '')) {console.log('Missing parameter')}
+        else if (pass != passcheck) {console.log('Passwords dont match')}
+        else if (!emailRegex.test(email)) {console.log('Invalid email')}
+        else {setCorrectCreation(true)}
+    }
 
 return (
         <>

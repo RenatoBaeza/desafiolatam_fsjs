@@ -1,11 +1,16 @@
-/* eslint-disable react/prop-types */
-import { Form } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const Buscador = () => {
+const Buscador = ({ setSearchTerm }) => {
     return (
         <>
-            <Form.Control type="text" placeholder="Busca un colaborador..." />
+            <Form className="mt-4">
+                <h4>Busca un colaborador</h4>
+                <Form.Control type="text" 
+                                placeholder="Busca un colaborador..."
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+            </Form>
         </>
     );
 };

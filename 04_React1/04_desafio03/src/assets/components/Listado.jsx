@@ -1,10 +1,11 @@
-/* eslint-disable react/prop-types */
+import React from 'react';
 import Table from 'react-bootstrap/Table'
 import BaseColaboradores from './BaseColaboradores.js'
 
-const Listado = () => {
+const Listado = ({ searchTerm }) => {
     return (
-    <>
+    <div className='my-4'>
+        <h4>Listado de colaboradores</h4>
         <Table striped bordered hover responsive>
             <thead>
                 <tr>
@@ -17,7 +18,10 @@ const Listado = () => {
                 </tr>
             </thead>
             <tbody>
-            {BaseColaboradores.map((colaborador) => (
+            {BaseColaboradores.filter((colaborador) => 
+                    colaborador.nombre.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                    colaborador.cargo.toLowerCase().includes(searchTerm.toLowerCase())
+                ).map((colaborador) => (
             <tr key={colaborador.id}>
                 <td>{colaborador.id}</td>
                 <td>{colaborador.nombre}</td>
@@ -29,7 +33,7 @@ const Listado = () => {
                 ))}
             </tbody>
         </Table>
-    </>
+    </div>
     );
 };
 
