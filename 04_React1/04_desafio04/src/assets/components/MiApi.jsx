@@ -5,7 +5,6 @@ const MiApi = ({ searchTerm }) => {
     const [games, setGames] = useState([]);
 
     const handleReverse = () => {
-        // Create a new reversed array and update the state
         const reversedGames = [...games].reverse();
         setGames(reversedGames);
     };  
