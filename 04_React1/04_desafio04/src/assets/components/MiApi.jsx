@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { Table } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 
 const MiApi = ({ searchTerm }) => {
     const [games, setGames] = useState([]);
 
+    const handleReverse = () => {
+        // Create a new reversed array and update the state
+        const reversedGames = [...games].reverse();
+        setGames(reversedGames);
+    };  
+
     useEffect(() => {
         const fetchGameData = async () => {
-            try {
-                const response = await fetch(`https://www.cheapshark.com/api/1.0/games?title=${encodeURIComponent(searchTerm)}`);
-                const data = await response.json();
-                setGames(data);
-            } catch (error) {
-                console.error("Error fetching data: ", error);
-            }
+            const response = await fetch(`https://www.cheapshark.com/api/1.0/games?title=${encodeURIComponent(searchTerm)}`);
+            const data = await response.json();
+            setGames(data);
         };
-
-        if (searchTerm) {
-            fetchGameData();
+            if (searchTerm) {fetchGameData()}
         }
-    }, [searchTerm]);
+        , [searchTerm]);
+
+  
 
     return (
         <div className='m-2'>
             <h2>Lista de juegos</h2>
+            <Button className="mb-2" variant="info" onClick={handleReverse}> Reordenar </Button>
             {games.length > 0 ? (
                 <Table striped bordered hover size="sm">
                     <thead>
