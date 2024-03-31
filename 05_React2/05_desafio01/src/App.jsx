@@ -1,22 +1,25 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import MiApi from "./assets/components/MiApi";
-import Buscador from "./assets/components/Buscador";
 import { Container, Row, Col } from "react-bootstrap";
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
+import Home from "./assets/components/Home";
+import Contact from "./assets/components/Contact";
+import Header from "./assets/components/Header";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState('');
-  
   return (
-    <Container className="bg-dark mw-100 p-5">
-      <Row className="justify-content-center ">
-        <Col xs={12} md={6} className="p-4 border rounded bg-light">
-          <h1>Game Info</h1>
-          <p>Usa la API de https://www.cheapshark.com/api/1.0/games para buscar el precio más barato para juegos.</p>
-          <Buscador setSearchTerm={setSearchTerm} />
-          <MiApi searchTerm={searchTerm} />
+    <Container className="mw-100">
+      <Row className="justify-content-center">
+        <Header/>
+
+        <Col xs={12} md={6} className="m-4 p-4 border rounded bg-light">
+            <Routes>
+                <Route path="/home" element={<Home/>}/>
+                <Route path="/contact" element={<Contact/>}/>
+            </Routes>
         </Col>
+
       </Row>
     </Container>
   );
