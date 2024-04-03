@@ -1,12 +1,12 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import React from "react";
+import {React, lazy } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Route, Routes } from "react-router-dom";
-import Home from "./assets/components/Home";
-import Favorites from "./assets/components/Favorites";
-import Header from "./assets/components/Header";
-import NotFound from "./assets/components/NotFound";
+const Home = lazy(() => import ("./assets/components/Home"));
+const Favorites = lazy(() => import ("./assets/components/Favorites"));
+const Header = lazy(() => import ("./assets/components/Header"));
+const NotFound = lazy(() => import ("./assets/components/NotFound"));
 
 function App() {
   return (
