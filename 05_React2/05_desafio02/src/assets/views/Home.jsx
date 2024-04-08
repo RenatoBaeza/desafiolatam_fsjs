@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { FavoritesContext } from "../context/FavoritesContext"
 
 const Home = () => {
     const config = {
@@ -13,6 +14,7 @@ const Home = () => {
         axios(config)
             .then(function (response) {
                 console.log(JSON.stringify(response.data));
+                setResponseData(response.data)
             })
             .catch(function (error) {
                 console.log(error);
@@ -20,11 +22,20 @@ const Home = () => {
     }, []);
 
     const [responseData, setResponseData] = React.useState(null);
+    const [favorites, setFavorites] = useContext(FavoritesContext);
 
     return (
-        <>
-            <p>{responseData}</p>
-        </>
+        <div>
+            {responseData ? (
+                <div>
+                    {responseData.photos.map((photo) => (
+                        <img key={photo.id} className="m-2" src={photo.src.medium}/>
+                    ))}
+                </div>
+            ) : (
+                <p>Loading...</p>
+            )}
+        </div>
     );
 };
 

@@ -1,29 +1,32 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import {React, lazy } from "react";
+import { React } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Route, Routes } from "react-router-dom";
-const Home = lazy(() => import ("./assets/components/Home"));
-const Favorites = lazy(() => import ("./assets/components/Favorites"));
-const Header = lazy(() => import ("./assets/components/Header"));
-const NotFound = lazy(() => import ("./assets/components/NotFound"));
+import { FavoritesContext } from './assets/context/FavoritesContext';
+import Home from "./assets/views/Home";
+import Favorites from "./assets/views/Favorites";
+import Header from "./assets/components/Header";
+import NotFound from "./assets/components/NotFound";
 
 function App() {
   return (
-    <Container className="mw-100">
-      <Row className="justify-content-center">
-        <Header/>
+    <FavoritesContext.Provider value={[favorites, setFavorites]}>
+        <Container className="mw-100">
+            <Row className="justify-content-center">
+              <Header/>
 
-        <Col xs={12} md={6} className="m-4 p-4 border rounded bg-light">
-            <Routes>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/favorites" element={<Favorites/>}/>
-                <Route path="*" element={<NotFound/>}/>
-            </Routes>
-        </Col>
+              <Col xs={12} md={10} className="m-4 p-4 border rounded bg-light">
+                  <Routes>
+                      <Route path="/" element={<Home/>}/>
+                      <Route path="/favorites" element={<Favorites/>}/>
+                      <Route path="*" element={<NotFound/>}/>
+                  </Routes>
+              </Col>
 
-      </Row>
-    </Container>
+            </Row>
+        </Container>
+    </FavoritesContext.Provider>
   );
 }
 
