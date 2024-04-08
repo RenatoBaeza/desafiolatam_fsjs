@@ -1,18 +1,23 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Form, Button } from "react-bootstrap";
+import React from 'react';
+import { useFavorites } from '../context/FavoritesContext';
 
-const Contact = () => {
+const Favorites = () => {
+    const { favorites, removeFavorite } = useFavorites();
+    
     return (
         <>
-            <Form>
-                <h4>Cuéntanos, ¿en qué te podemos ayudar?</h4>
-                <Form.Label>Email address</Form.Label>
-                <Form.Control type="text" placeholder="Ingresa tu correo electrónico..."/>
-                <Form.Label>Mensaje</Form.Label>
-                <Form.Control type="text" placeholder="Déjanos un mensaje..."/>
-                <Button className='bg-danger m-2'>Enviar</Button>
-            </Form>
+        <h1 className="text-success">Favorites</h1>
+            {favorites.map((photo) => (
+                            <img onClick={() => removeFavorite(photo.id)} 
+                                key={photo.id} 
+                                className="m-2" 
+                                src={photo.src.medium}
+                                />
+                    )
+                )
+            }
         </>
     )
 };
-export default Contact;
+export default Favorites;

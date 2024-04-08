@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
-import { FavoritesContext } from "../context/FavoritesContext"
+import { useFavorites } from "../context/FavoritesContext"
 
 const Home = () => {
     const config = {
@@ -22,15 +22,22 @@ const Home = () => {
     }, []);
 
     const [responseData, setResponseData] = React.useState(null);
-    const [favorites, setFavorites] = useContext(FavoritesContext);
+    const { addFavorite } = useFavorites();
 
     return (
         <div>
+            <h1 className="text-success">Natural Pic</h1>
             {responseData ? (
                 <div>
-                    {responseData.photos.map((photo) => (
-                        <img key={photo.id} className="m-2" src={photo.src.medium}/>
-                    ))}
+                    {
+                    responseData.photos.map((photo) => (
+                        <img onClick={() => addFavorite(photo)} 
+                                key={photo.id} 
+                                className="m-2" 
+                                src={photo.src.medium}/>
+                            )
+                        )
+                    }
                 </div>
             ) : (
                 <p>Loading...</p>

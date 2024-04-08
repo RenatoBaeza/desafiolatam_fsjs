@@ -3,15 +3,15 @@ import "./App.css";
 import { React } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Route, Routes } from "react-router-dom";
-import { FavoritesContext } from './assets/context/FavoritesContext';
+import { FavoritesProvider } from './assets/context/FavoritesContext';
+import Header from "./assets/components/Header";
 import Home from "./assets/views/Home";
 import Favorites from "./assets/views/Favorites";
-import Header from "./assets/components/Header";
-import NotFound from "./assets/components/NotFound";
+import NotFound from "./assets/views/NotFound";
 
 function App() {
   return (
-    <FavoritesContext.Provider value={[favorites, setFavorites]}>
+    <FavoritesProvider>
         <Container className="mw-100">
             <Row className="justify-content-center">
               <Header/>
@@ -26,7 +26,7 @@ function App() {
 
             </Row>
         </Container>
-    </FavoritesContext.Provider>
+    </FavoritesProvider>
   );
 }
 

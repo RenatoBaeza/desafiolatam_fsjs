@@ -1,18 +1,22 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useContext } from 'react';
 
 export const FavoritesContext = createContext();
+
+export function useFavorites() {
+    return useContext(FavoritesContext);
+}
 
 export const FavoritesProvider = ({ children }) => {
     const [favorites, setFavorites] = useState([]);
 
-    const addFavorite = (imageId) => {
-    if (!favorites.includes(imageId)) {
-        setFavorites([...favorites, imageId]);
-        }
+    const addFavorite = (image) => {
+    if (!favorites.find((fav) => fav.id === image.id)) {
+        setFavorites([...favorites, image]);
+    }
     };
 
-    const removeFavorite = (imageId) => {
-        setFavorites(favorites.filter((id) => id !== imageId));
+    const removeFavorite = (id) => {
+    setFavorites(favorites.filter((fav) => fav.id !== id));
     };
 
     return (
