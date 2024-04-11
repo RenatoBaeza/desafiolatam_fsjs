@@ -4,7 +4,7 @@ import axios from "axios";
 
 const Pokemon = () => {
     const [responseData, setResponseData] = React.useState(null);
-    const [selectedPokemon, setSelectedPokemon] = React.useState('charmander'); // Default selection
+    const [selectedPokemon, setSelectedPokemon] = React.useState('charmander');
 
     React.useEffect(() => {
         if (selectedPokemon) {
@@ -17,15 +17,14 @@ const Pokemon = () => {
                     console.log(error);
                 });
         }
-    }, [selectedPokemon]); // Fetch data when selectedPokemon changes
+    }, [selectedPokemon]);
 
     const handlePokemonChange = (event) => {
         setSelectedPokemon(event.target.value);
     };
 
     const handleFetchPokemon = (event) => {
-        event.preventDefault(); // Prevent form submission
-        // Data fetching will be triggered by useEffect
+        event.preventDefault();
     };
 
     return (
