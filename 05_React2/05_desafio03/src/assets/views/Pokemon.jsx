@@ -7,25 +7,15 @@ const Pokemon = () => {
     const navigate = useNavigate();
     const [selectedPokemon, setSelectedPokemon] = useState('');
     const [pokemon, setPokemon] = useState([]);
-    const [pokemonDetails, setPokemonDetails] = useState(null);
 
     useEffect(() => {
-        fetch('https://pokeapi.co/api/v2/pokemon?limit=100')
+        fetch('https://pokeapi.co/api/v2/pokemon?limit=9999')
             .then(response => response.json())
             .then(data => setPokemon(data.results));
     }, []);
 
     const handlePokemonChange = (event) => {
         setSelectedPokemon(event.target.value);
-    };
-
-    const fetchPokemonDetails = () => {
-        if (selectedPokemon) {
-            fetch(`https://pokeapi.co/api/v2/pokemon/${selectedPokemon}`)
-                .then(response => response.json())
-                .then(data => setPokemonDetails(data))
-                .catch(err => console.error('Error fetching pokemon details:', err));
-        }
     };
 
     const goToPokemonDetails = () => {if (selectedPokemon) {navigate(`/pokemon/${selectedPokemon}`)}}
