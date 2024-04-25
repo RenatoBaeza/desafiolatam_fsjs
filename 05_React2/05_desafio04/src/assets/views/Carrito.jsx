@@ -1,12 +1,12 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import React from 'react';
 import axios from "axios";
+import React, { useEffect, useState, useContext } from "react";
 
 const Carrito = () => {
     return (
-        <>
+        <div>
 
-        </>
+        </div>
     );
 };
 
