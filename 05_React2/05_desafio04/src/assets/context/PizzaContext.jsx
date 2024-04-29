@@ -1,11 +1,12 @@
+// PizzaContext.jsx
 import React, { createContext, useState } from 'react';
 export const PizzaContext = createContext();
 
 export const PizzaProvider = ({ children }) => {
-    const [Pizza, setPizza] = useState([]);
+    const [pizzaname, setpizzaname] = useState([]);
 
     return (
-        <PizzaContext.Provider value={{ Pizza, setPizza }}>
+        <PizzaContext.Provider value={{ pizzaname, setpizzaname }}>
             {children}
         </PizzaContext.Provider>
     );

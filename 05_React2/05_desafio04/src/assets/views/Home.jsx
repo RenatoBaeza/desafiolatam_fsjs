@@ -1,17 +1,19 @@
+// Home.jsx
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
 import { Card, Row, ListGroup, Button } from "react-bootstrap";
 import pizzas from '../json/pizzas.json'
 import { useNavigate } from 'react-router-dom';
+import { PizzaContext } from "../context/PizzaContext";
 
 const Home = () => {
     function capitalizeWords(sentence) {return sentence.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
     const navigate = useNavigate();
-    const [selectedPizza, setselectedPizza] = useState('');
-    const gotoPizza = () => {
-        setselectedPizza(pizza.name)
-        navigate(`/pizza/${selectedPizza}`)
+    const { pizzaname, setpizzaname } = useContext(PizzaContext);
+    const gotoPizza = (value) => {
+        setpizzaname(value)
+        navigate(`/pizza/${pizzaname}`)
         }
 
     return (
@@ -31,7 +33,7 @@ const Home = () => {
                                     <ListGroup.Item key={index}>🍕{capitalizeWords(ingredient)}</ListGroup.Item>
                                 ))}
                             </ListGroup>
-                            <Button variant="primary" onClick={gotoPizza}>Ver más</Button>
+                            <Button variant="primary" onClick={() => gotoPizza(pizza.name)}>Ver más</Button>
                             <Button variant="danger">Añadir</Button>
                         </Card.Body>
                     </Card>
