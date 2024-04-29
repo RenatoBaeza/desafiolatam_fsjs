@@ -1,7 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import axios from "axios";
-import React, { useEffect, useState, useContext } from "react";
-import { Card, Row, ListGroup, Button } from "react-bootstrap";
+import React, { useContext } from "react";
+import { Row } from "react-bootstrap";
 import { PizzaContext } from "../context/PizzaContext";
 
 const Carrito = () => {

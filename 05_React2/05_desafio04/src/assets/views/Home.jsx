@@ -1,7 +1,6 @@
 // Home.jsx
 import "bootstrap/dist/css/bootstrap.min.css";
-import axios from "axios";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { Card, Row, ListGroup, Button } from "react-bootstrap";
 import pizzas from '../json/pizzas.json'
 import { useNavigate } from 'react-router-dom';

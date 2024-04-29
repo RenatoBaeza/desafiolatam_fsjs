@@ -1,6 +1,6 @@
 // Pizza.jsx
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, Button } from "react-bootstrap";
 import { PizzaContext } from '../context/PizzaContext';
