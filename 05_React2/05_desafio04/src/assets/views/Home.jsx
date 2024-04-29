@@ -11,10 +11,33 @@ const Home = () => {
     function capitalizeWords(sentence) {return sentence.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
     const navigate = useNavigate();
     const { pizzaname, setpizzaname } = useContext(PizzaContext);
+    const { carrito, setCarrito } = useContext(PizzaContext);
+
     const gotoPizza = (value) => {
         setpizzaname(value)
-        navigate(`/pizza/${pizzaname}`)
+        navigate(`/pizza/${value}`)
         }
+
+    const addPizza = (pizzaName) => {
+        const existingPizza = carrito.find(p => p.name === pizzaName);
+        if (existingPizza) {
+            const updatedCart = carrito.map(p => {
+                if (p.name === pizzaName) {
+                    return { ...p, amount: p.amount + 1 };
+                }
+                return p;
+            });
+            setCarrito(updatedCart);
+        } else {
+            const newPizza = { name: pizzaName, amount: 1 };
+            setCarrito([...carrito, newPizza]);
+        }
+    };
+    
+    useEffect(() => {
+        console.log(carrito);
+    }, [carrito]); // Log the cart state every time it changes
+    
 
     return (
         <div>
@@ -34,7 +57,7 @@ const Home = () => {
                                 ))}
                             </ListGroup>
                             <Button variant="primary" onClick={() => gotoPizza(pizza.name)}>Ver más</Button>
-                            <Button variant="danger">Añadir</Button>
+                            <Button variant="danger" onClick={() => addPizza(pizza.name)}>Añadir</Button>
                         </Card.Body>
                     </Card>
                 ))}
