@@ -3,7 +3,7 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
 const AppNavbar = () => {
-  const setActiveClass = ({ isActive }) => (isActive ? "mx-2 text-secondary" : "mx-2 text-light")
+  const setActiveClass = ({ isActive }) => (isActive ? "mx-2 text-danger" : "mx-2 text-light")
   return (
       <>
       <Navbar bg="primary" data-bs-theme="dark">

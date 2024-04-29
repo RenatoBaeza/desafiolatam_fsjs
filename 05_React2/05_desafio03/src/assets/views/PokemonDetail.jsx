@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from "react-bootstrap";
 
-function PokemonDetail() {
+const PokemonDetail = () => {
     const navigate = useNavigate();
     const {name} = useParams();
     const [pokemonDetails, setPokemonDetails] = useState(null);
