@@ -1,5 +1,4 @@
 CREATE DATABASE desafio3_Renato_Baeza_623;
-USE desafio3_Renato_Baeza_623;
 
 CREATE TABLE Usuarios (
     id SERIAL PRIMARY KEY,
@@ -23,8 +22,7 @@ CREATE TABLE Posts (
     fecha_creacion TIMESTAMP NOT NULL,
     fecha_actualizacion TIMESTAMP NOT NULL,
     destacado BOOLEAN NOT NULL,
-    usuario_id BIGINT --,
-    --FOREIGN KEY (usuario_id) REFERENCES Usuarios(id)
+    usuario_id BIGINT
 );
 
 INSERT INTO Posts (titulo, contenido, fecha_creacion, fecha_actualizacion, destacado, usuario_id) VALUES
@@ -39,9 +37,7 @@ CREATE TABLE Comentarios (
     contenido TEXT NOT NULL,
     fecha_creacion TIMESTAMP NOT NULL,
     usuario_id BIGINT,
-    post_id BIGINT--,
-    --FOREIGN KEY (usuario_id) REFERENCES Usuarios(id),
-    --FOREIGN KEY (post_id) REFERENCES Posts(id)
+    post_id BIGINT
 );
 
 INSERT INTO Comentarios (contenido, fecha_creacion, usuario_id, post_id) VALUES
