@@ -1,3 +1,6 @@
+-- 1. Revisa el tipo de relación y crea el modelo correspondiente. Respeta las claves primarias, foráneas y tipos de datos
+CREATE DATABASE pruebaSQL_Renato_Baeza_529;
+
 CREATE TABLE peliculas (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
@@ -49,22 +52,25 @@ LEFT JOIN peliculas_tags pt ON p.id = pt.pelicula_id
 GROUP BY p.id;
 
 -- 4. Crear tablas correspondientes respetando nombres, tipos, claves primarias y foráneas. Supongamos que las tablas son para un sistema de preguntas y respuestas.
-CREATE TABLE usuarios (
+CREATE TABLE Usuarios (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(255) NOT NULL,
-    edad INT NOT NULL
+    nombre VARCHAR(255),
+    edad INTEGER
 );
 
-CREATE TABLE preguntas (
+CREATE TABLE Preguntas (
     id SERIAL PRIMARY KEY,
-    texto VARCHAR(255) NOT NULL
+    pregunta VARCHAR(255),
+    respuesta_correcta VARCHAR(255)
 );
 
-CREATE TABLE respuestas (
+CREATE TABLE Respuestas (
     id SERIAL PRIMARY KEY,
-    pregunta_id INT REFERENCES preguntas(id) ON DELETE CASCADE,
-    usuario_id INT REFERENCES usuarios(id) ON DELETE CASCADE,
-    respuesta_texto VARCHAR(255) NOT NULL
+    respuesta VARCHAR(255),
+    usuario_id INTEGER,
+    pregunta_id INTEGER,
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(id),
+    FOREIGN KEY (pregunta_id) REFERENCES Preguntas(id)
 );
 
 -- 5. Insertar usuarios y preguntas, y contestar preguntas como se especifica.
@@ -75,43 +81,52 @@ INSERT INTO usuarios (nombre, edad) VALUES
 ('Ramón', 28),
 ('Roberto', 35);
 
-INSERT INTO preguntas (texto) VALUES 
-('¿Cuánto es 2+2?'),
-('¿Cuánto es 3+3?'),
-('¿Cuánto es 4+4?'),
-('¿Cuánto es 5+5?'),
-('¿Cuánto es 6+6?');
+INSERT INTO preguntas (pregunta, respuesta_correcta) VALUES 
+('¿Cuánto es 2+2?', '4'),
+('¿Cuánto es 3+3?', '6'),
+('¿Cuánto es 4+4?', '8'),
+('¿Cuánto es 5+5?', '10'),
+('¿Cuánto es 6+6?', '12');
 
-INSERT INTO respuestas (pregunta_id, usuario_id, respuesta_texto) VALUES 
-(1, 1, 'Respuesta correcta'),
-(1, 2, 'Respuesta correcta'), 
-(2, 3, 'Respuesta correcta'), 
-(3, 4, 'Respuesta incorrecta'), 
-(4, 5, 'Respuesta incorrecta'), 
-(5, 1, 'Respuesta incorrecta');
+INSERT INTO respuestas (pregunta_id, usuario_id, respuesta) VALUES 
+(1, 1, '4'),
+(1, 2, '4'), 
+(2, 3, '6'), 
+(3, 4, '5'), 
+(4, 5, '11'), 
+(5, 1, '13');
 
 -- 6. Contar la cantidad de respuestas correctas por usuario.
-SELECT u.nombre, COUNT(r.id) AS respuestas_correctas
-FROM usuarios u
-JOIN respuestas r ON u.id = r.usuario_id
-JOIN preguntas p ON r.pregunta_id = p.id
-WHERE r.respuesta_texto = p.texto
-GROUP BY u.id;
+SELECT u.nombre, COUNT(*) AS total_respuestas_correctas
+FROM Respuestas r
+LEFT JOIN Usuarios u ON r.usuario_id = u.id
+LEFT JOIN Preguntas p ON r.pregunta_id = p.id
+WHERE r.respuesta = p.respuesta_correcta
+GROUP BY u.nombre;
 
 -- 7. Contar cuántos usuarios respondieron correctamente por cada pregunta.
-SELECT p.texto, COUNT(r.id) AS usuarios_respondieron_correctamente
-FROM preguntas p
-JOIN respuestas r ON p.id = r.pregunta_id
-WHERE r.respuesta_texto = p.texto
-GROUP BY p.id;
+SELECT p.id AS pregunta_id, p.pregunta, COUNT(r.id) AS total_respuestas_correctas
+FROM Preguntas p
+LEFT JOIN Respuestas r ON p.id = r.pregunta_id AND r.respuesta = p.respuesta_correcta
+GROUP BY p.id, p.pregunta;
 
 -- 8. Implementar un borrado en cascada de las respuestas al borrar un usuario.
-DELETE FROM usuarios WHERE id = 1;
+ALTER TABLE Respuestas DROP CONSTRAINT IF EXISTS respuestas_usuario_id_fkey;
+
+ALTER TABLE Respuestas
+ADD CONSTRAINT respuestas_usuario_id_fkey
+FOREIGN KEY (usuario_id)
+REFERENCES Usuarios(id)
+ON DELETE CASCADE;
+
+DELETE FROM Usuarios WHERE id = 1;
+SELECT * FROM Usuarios WHERE id = 1;
+SELECT * FROM Respuestas WHERE usuario_id = 1;
 
 -- 9. Crear una restricción que impida insertar usuarios menores de 18 años.
 ALTER TABLE usuarios
 ADD CONSTRAINT check_edad CHECK (edad >= 18);
 
 -- 10. Alterar la tabla de usuarios agregando el campo email con restricción única.
-ALTER TABLE usuarios
+ALTER TABLE Usuarios
 ADD COLUMN email VARCHAR(255) UNIQUE;
