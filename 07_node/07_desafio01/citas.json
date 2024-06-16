@@ -1,3 +1,9 @@
 [
-
+  {
+    "nombre": "Benito",
+    "edad": "2 años",
+    "tipo": "perro",
+    "color": "blanco",
+    "enfermedad": "vomitos"
+  }
 ]
