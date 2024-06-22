@@ -30,7 +30,7 @@ app.put('/canciones/:id', (req, res) => {
         fs.writeFileSync('repertorio.json', JSON.stringify(songs, null, 2));
         res.send(songs[index]);
     } else {
-        res.status(404).send({ error: 'Song not found' });
+        res.status(404).send({ error: 'Cancion no encontrada' });
     }
 });
 
@@ -42,10 +42,10 @@ app.delete('/canciones/:id', (req, res) => {
         fs.writeFileSync('repertorio.json', JSON.stringify(songs, null, 2));
         res.send(deletedSong);
     } else {
-        res.status(404).send({ error: 'Song not found' });
+        res.status(404).send({ error: 'Cancion no encontrada' });
     }
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`http://localhost:${PORT}`);
 });
