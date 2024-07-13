@@ -13,7 +13,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-// Middleware para registrar rutas
 const registroRutas = (req, res, next) => {
     const log = `Ruta consultada: ${req.url} - ${new Date().toISOString()}\n`;
     fs.appendFileSync('registro_rutas.log', log);
