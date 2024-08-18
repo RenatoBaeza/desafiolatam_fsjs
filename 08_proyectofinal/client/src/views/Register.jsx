@@ -5,8 +5,8 @@ import { ENDPOINT } from '../config/constants'
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 const initialForm = {
-  email: 'docente@desafiolatam.com',
-  password: '123456'
+  email: '',
+  password: ''
 }
 
 const Register = () => {

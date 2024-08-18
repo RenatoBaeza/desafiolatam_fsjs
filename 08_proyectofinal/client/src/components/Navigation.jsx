@@ -24,6 +24,7 @@ const Navigation = () => {
 
     return (
       <>
+        <Link to='/create' className='btn m-1 btn-success'>Crear publicación</Link>
         <Link to='/perfil' className='btn m-1 btn-light'>Mi Perfil</Link>
         <button onClick={logout} className='btn btn-danger'>Salir</button>
       </>
