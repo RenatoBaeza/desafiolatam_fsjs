@@ -2,7 +2,6 @@ import './App.css'
 import Context from './contexts/Context'
 import useDeveloper from './hooks/useDeveloper'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-
 import Navigation from './components/Navigation'
 import Home from './views/Home'
 import Registro from './views/Register'

@@ -1,14 +1,12 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ENDPOINT } from '../config/constans'
+import { ENDPOINT } from '../config/constants'
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 const initialForm = {
   email: 'docente@desafiolatam.com',
-  password: '123456',
-  rol: 'Seleccione un rol',
-  lenguage: 'Seleccione un Lenguage'
+  password: '123456'
 }
 
 const Register = () => {
@@ -22,15 +20,13 @@ const Register = () => {
 
     if (
       !user.email.trim() ||
-      !user.password.trim() ||
-      user.rol === 'Seleccione un rol' ||
-      user.lenguage === 'Seleccione un Lenguage'
+      !user.password.trim()
     ) {
-      return window.alert('Todos los campos son obligatorias.')
+      return window.alert('Todos los campos son obligatorios')
     }
 
     if (!emailRegex.test(user.email)) {
-      return window.alert('El formato del email no es correcto!')
+      return window.alert('El formato del email no es correcto')
     }
 
     axios.post(ENDPOINT.users, user)
@@ -75,34 +71,6 @@ const Register = () => {
           className='form-control'
           placeholder='Password'
         />
-      </div>
-      <div className='form-group mt-1 '>
-        <label>Rol</label>
-        <select
-          defaultValue={user.rol}
-          onChange={handleUser}
-          name='rol'
-          className='form-select'
-        >
-          <option disabled>Seleccione un rol</option>
-          <option value='Full Stack Developer'>Full Stack Developer</option>
-          <option value='Frontend Developer'>Frontend Developer</option>
-          <option value='Backend Developer'>Backend Developer</option>
-        </select>
-      </div>
-      <div className='form-group mt-1'>
-        <label>Lenguage</label>
-        <select
-          defaultValue={user.lenguage}
-          onChange={handleUser}
-          name='lenguage'
-          className='form-select'
-        >
-          <option disabled>Seleccione un Lenguage</option>
-          <option value='JavaScript'>JavaScript</option>
-          <option value='Python'>Python</option>
-          <option value='Ruby'>Ruby</option>
-        </select>
       </div>
       <button type='submit' className='btn btn-light mt-3'>Registrarme</button>
     </form>

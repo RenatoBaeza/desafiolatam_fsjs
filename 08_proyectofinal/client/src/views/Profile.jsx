@@ -2,7 +2,7 @@ import axios from 'axios'
 import Context from '../contexts/Context'
 import { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ENDPOINT } from '../config/constans'
+import { ENDPOINT } from '../config/constants'
 
 const Profile = () => {
   const navigate = useNavigate()
