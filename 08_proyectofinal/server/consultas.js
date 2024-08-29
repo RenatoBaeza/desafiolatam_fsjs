@@ -5,10 +5,11 @@ require('dotenv').config();
 const current_timestamp = Math.round(Date.now()/1000)
 
 const pool = new Pool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
+    connectionString: process.env.POSTGRES_URL,
+    host: process.env.POSTGRES_HOST,
+    user: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    database: process.env.POSTGRES_DATABASE,
     allowExitOnIdle: true
 });
 

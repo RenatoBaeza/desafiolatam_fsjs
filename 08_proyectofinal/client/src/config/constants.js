@@ -1,7 +1,8 @@
-export const URLBASE = 'http://localhost:3000'
+export const URLBASE = process.env.URLBASE
 
 export const ENDPOINT = {
   login: `${URLBASE}/login`,
   users: `${URLBASE}/usuarios`,
-  publications: `${URLBASE}/publications`
+  publications: `${URLBASE}/publications`,
+  perfil: `${URLBASE}/perfil`
 }
