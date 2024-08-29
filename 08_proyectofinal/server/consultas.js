@@ -5,7 +5,6 @@ require('dotenv').config();
 const current_timestamp = Math.round(Date.now()/1000)
 
 const pool = new Pool({
-    connectionString: process.env.POSTGRES_URL,
     host: process.env.POSTGRES_HOST,
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,

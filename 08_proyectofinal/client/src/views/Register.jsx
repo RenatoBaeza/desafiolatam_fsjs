@@ -31,12 +31,10 @@ const Register = () => {
 
     axios.post(ENDPOINT.users, user)
       .then(() => {
-        console.log(`process.env is ${process.env.URLBASE}`);
         window.alert('Usuario registrado con éxito 😀.')
         navigate('/login')
       })
       .catch(({ response: { data } }) => {
-        console.log(`process.env is ${process.env.URLBASE}`);
         console.error(data)
         window.alert(`${data.message} 🙁.`)
       })
