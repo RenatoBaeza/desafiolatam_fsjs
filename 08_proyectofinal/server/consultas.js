@@ -2,10 +2,9 @@ const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
-const current_timestamp = Math.round(Date.now()/1000)
+const getCurrentTimestamp = () => new Date().toISOString().replace('T', ' ').replace('Z', '');
 
 const pool = new Pool({
-    connectionString: process.env.POSTGRES_URL,
     host: process.env.POSTGRES_HOST,
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
@@ -14,10 +13,10 @@ const pool = new Pool({
 });
 
 const registrarUsuario = async (usuario) => {
-    const { user_id, email, password, creation_timestamp, status } = usuario;
+    const { user_id, email, password, creation_timestamp, creation_date, status } = usuario;
     const passwordEncriptada = bcrypt.hashSync(password, 10);
-    const values = [uuidv4(), email, passwordEncriptada, current_timestamp, "active"];
-    const consulta = "INSERT INTO USUARIOS (user_id, email, password, creation_timestamp, status) VALUES ($1, $2, $3, $4, $5)";
+    const values = [uuidv4(), email, passwordEncriptada, getCurrentTimestamp(), creation_date, "active"];
+    const consulta = "INSERT INTO USUARIOS (user_id, email, password, creation_timestamp, creation_date, status) VALUES ($1, $2, $3, $4, $5, $6)";
     await pool.query(consulta, values);
 };
 
@@ -47,7 +46,7 @@ const obtenerUsuario = async (email) => {
 
 const crearPublicacion = async (publicacion) => {
     const { publication_id, user_id, creation_timestamp, title, description, img_url } = publicacion;
-    const values = [uuidv4(), email, current_timestamp, title, description, img_url];
+    const values = [uuidv4(), email, getCurrentTimestamp(), title, description, img_url];
     const consulta = "INSERT INTO PUBLICACIONES (publication_id, user_id, creation_timestamp, title, description, img_url) VALUES ($1, $2, $3, $4, $5, $6)";
     await pool.query(consulta, values);
 };
