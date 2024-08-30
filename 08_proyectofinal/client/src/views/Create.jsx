@@ -1,37 +1,61 @@
-import axios from 'axios'
-import { useState } from 'react'
-import { ENDPOINT } from '../config/constants'
+import axios from 'axios';
+import { useState } from 'react';
+import { ENDPOINT } from '../config/constants';
 
 const initialForm = {
   nombre: '',
   descripcion: '',
   img_url: ''
-}
+};
 
 const Create = () => {
-  const [publicacion, setPublicacion] = useState(initialForm)
+  const [publicacion, setPublicacion] = useState(initialForm);
 
-  const handlePublicacion = (event) => setPublicacion({ ...publicacion, [event.target.name]: event.target.value })
+  const handlePublicacion = (event) =>
+    setPublicacion({ ...publicacion, [event.target.name]: event.target.value });
 
   const handleForm = (event) => {
-    event.preventDefault()
-    axios.post(ENDPOINT.publications, publicacion)
+    event.preventDefault();
+
+    // Retrieve the JWT token from local storage
+    const token = localStorage.getItem('token');
+
+    // Check if the token exists, if not alert the user
+    if (!token) {
+      window.alert('No token found. Please log in again.');
+      return;
+    }
+
+    // Send the publication data along with the token in the request headers
+    axios
+      .post(ENDPOINT.publications, publicacion, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
       .then(() => {
-        window.alert('Publicación creada con éxito 😀.')
+        window.alert('Publicación creada con éxito 😀.');
+        setPublicacion(initialForm); // Reset form after successful submission
       })
       .catch(({ response: { data } }) => {
-        console.error(data)
-        window.alert(`${data.message} 🙁.`)
-      })
-  }
+        console.error(data);
+        window.alert(`${data.message} 🙁.`);
+      });
+  };
 
   return (
     <div className='py-5'>
-      <h1>Vende tu estrella en<span className='fw-bold'>⭐Starstruck</span></h1>
-      <form onSubmit={handleForm} className='col-10 col-sm-6 col-md-3 m-auto mt-5'>
+      <h1>
+        Vende tu estrella en<span className='fw-bold'>⭐Starstruck</span>
+      </h1>
+      <form
+        onSubmit={handleForm}
+        className='col-10 col-sm-6 col-md-3 m-auto mt-5'
+      >
         <div className='form-group mt-1 '>
           <label>Nombre</label>
           <input
+            name='nombre'
             value={publicacion.nombre}
             onChange={handlePublicacion}
             className='form-control'
@@ -41,10 +65,10 @@ const Create = () => {
         <div className='form-group mt-1 '>
           <label>Descripción</label>
           <input
+            name='descripcion'
             value={publicacion.descripcion}
             onChange={handlePublicacion}
-            type='password'
-            name='password'
+            type='text'
             className='form-control'
             placeholder='Descripción'
           />
@@ -52,16 +76,19 @@ const Create = () => {
         <div className='form-group mt-1 '>
           <label>URL de la imagen</label>
           <input
+            name='img_url'
             value={publicacion.img_url}
             onChange={handlePublicacion}
             className='form-control'
             placeholder='URL de la imagen'
           />
         </div>
-        <button type='submit' className='btn btn-success mt-3'>Crear publicación</button>
+        <button type='submit' className='btn btn-success mt-3'>
+          Crear publicación
+        </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Create
+export default Create;

@@ -45,9 +45,9 @@ const obtenerUsuario = async (email) => {
 };
 
 const crearPublicacion = async (publicacion) => {
-    const { publication_id, user_id, creation_timestamp, title, description, img_url } = publicacion;
-    const values = [uuidv4(), email, getCurrentTimestamp(), title, description, img_url];
-    const consulta = "INSERT INTO PUBLICACIONES (publication_id, user_id, creation_timestamp, title, description, img_url) VALUES ($1, $2, $3, $4, $5, $6)";
+    const {user_id, title, description, img_url, status, creation_timestamp } = publicacion;
+    const values = [uuidv4(), title, description, img_url, "active", getCurrentTimestamp()];
+    const consulta = "INSERT INTO PUBLICACIONES (user_id, title, description, img_url, status, creation_timestamp) VALUES ($1, $2, $3, $4, $5, $6)";
     await pool.query(consulta, values);
 };
 

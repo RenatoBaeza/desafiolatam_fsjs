@@ -24,21 +24,26 @@ const verifyCredentials = (req, res, next) => {
 };
 
 const validateToken = (req, res, next) => {
+    console.log('Headers:', req.headers);
     const Authorization = req.header("Authorization");
+    console.log('Authorization header:', Authorization);
     if (!Authorization) {
         return res.status(401).send("No se proporcionó un token");
     }
 
     const token = Authorization.split("Bearer ")[1];
+    console.log('Extracted token:', token);
     if (!token) {
         return res.status(401).send("Formato de token incorrecto");
     }
 
     try {
         const verified = jwt.verify(token, "az_AZ");
+        console.log('Verified token payload:', verified);
         req.email = verified.email;
         next();
     } catch (error) {
+        console.error('Token verification error:', error);
         return res.status(401).send("Token inválido");
     }
 };
@@ -82,15 +87,22 @@ app.get("/usuarios", validateToken, async (req, res) => {
     }
 });
 
-app.post("/publications", verifyCredentials, async (req, res) => {
+app.post("/publications", validateToken, async (req, res) => {
     try {
-        const { email, password } = req.body;
-        await verificarCredenciales(email, password);
-        const token = jwt.sign({ email }, "az_AZ");
-        res.send({ token });
+        const { title, description, img_url, status } = req.body;
+        const user_id = req.user_id;
+
+        if (!title || !status) {
+            return res.status(400).send("Title and status are required");
+        }
+
+        const publicacion = {user_id, title, description, img_url, status, creation_timestamp};
+
+        await crearPublicacion(publicacion);
+        res.status(201).send("Publication created successfully");
     } catch (error) {
         console.log(error);
-        res.status(error.code || 500).send(error.message);
+        res.status(500).send(error.message);
     }
 });
 
