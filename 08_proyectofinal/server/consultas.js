@@ -78,6 +78,12 @@ const obtenerPublicaciones = async () => {
     return rows;  // Return all rows, not just the first one
 };
 
+const obtenerPublicacionesUsuario = async (user_id) => {
+    const consulta = "SELECT * FROM PUBLICACIONES WHERE user_id = $1";
+    const { rows } = await pool.query(consulta, [user_id]);
+    return rows;
+};
+
 const crearPublicacion = async (publicacion) => {
     const { title, description, img_url, status } = publicacion;
     const email = publicacion.user_id; // Assuming email is passed as user_id
@@ -96,4 +102,4 @@ const crearPublicacion = async (publicacion) => {
     await pool.query(consulta, values);
 };
 
-module.exports = { registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion, validateToken, obtenerPublicaciones };
+module.exports = { registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion, validateToken, obtenerPublicaciones, obtenerPublicacionesUsuario };

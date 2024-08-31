@@ -1,5 +1,5 @@
 // Server.js
-const { registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion, validateToken, obtenerPublicaciones } = require('./consultas');
+const { registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion, validateToken, obtenerPublicaciones, obtenerPublicacionesUsuario } = require('./consultas');
 const express = require('express');
 const fs = require('fs');
 const jwt = require("jsonwebtoken");
@@ -76,6 +76,22 @@ app.get("/publications", async (req, res) => {
     try {
         const publicaciones = await obtenerPublicaciones();
         res.send(publicaciones);  // Return all rows of publications
+    } catch (error) {
+        res.status(error.code || 500).send(error.message);
+    }
+});
+
+app.get("/my-publications", validateToken, async (req, res) => {
+    try {
+        const email = req.user.email;
+        
+        // Fetch the user to get their user_id
+        const usuario = await obtenerUsuario(email);
+
+        // Get the publications for this specific user
+        const publicaciones = await obtenerPublicacionesUsuario(usuario.user_id);
+        
+        res.send(publicaciones);
     } catch (error) {
         res.status(error.code || 500).send(error.message);
     }
