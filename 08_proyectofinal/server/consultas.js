@@ -95,4 +95,4 @@ const crearPublicacion = async (publicacion) => {
     await pool.query(consulta, values);
 };
 
-module.exports = app;
+module.exports = { registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion, validateToken, obtenerPublicaciones };
