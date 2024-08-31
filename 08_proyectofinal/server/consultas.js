@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
 const getCurrentTimestamp = () => new Date().toISOString().replace('T', ' ').replace('Z', '');
+const fs = require('fs');
+const jwt = require("jsonwebtoken");
 
 const pool = new Pool({
     host: process.env.POSTGRES_HOST,
