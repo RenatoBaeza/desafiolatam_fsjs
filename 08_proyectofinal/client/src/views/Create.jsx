@@ -4,9 +4,10 @@ import { useState } from 'react';
 import { ENDPOINT } from '../config/constants';
 
 const initialForm = {
-  nombre: '',
-  descripcion: '',
-  img_url: ''
+  title: '',
+  description: '',
+  img_url: '',
+  status: 'active'
 };
 
 const Create = () => {
@@ -51,8 +52,8 @@ const Create = () => {
         <div className='form-group mt-1 '>
           <label>Nombre</label>
           <input
-            name='nombre'
-            value={publicacion.nombre}
+            name='title'
+            value={publicacion.title}
             onChange={handlePublicacion}
             className='form-control'
             placeholder='Ingresa un título a tu publicación'
@@ -61,8 +62,8 @@ const Create = () => {
         <div className='form-group mt-1 '>
           <label>Descripción</label>
           <input
-            name='descripcion'
-            value={publicacion.descripcion}
+            name='description'
+            value={publicacion.description}
             onChange={handlePublicacion}
             type='text'
             className='form-control'

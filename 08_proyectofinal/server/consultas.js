@@ -39,7 +39,7 @@ const verificarCredenciales = async (email, password) => {
         throw { code: 401, message: "Invalid credentials" };
     }
 
-    return usuario; // Return the user data if credentials are correct
+    return usuario;
 };
 
 const obtenerUsuario = async (email) => {
@@ -53,9 +53,20 @@ const obtenerUsuario = async (email) => {
 };
 
 const crearPublicacion = async (publicacion) => {
-    const {user_id, title, description, img_url, status, creation_timestamp } = publicacion;
-    const values = [uuidv4(), title, description, img_url, "active", getCurrentTimestamp()];
-    const consulta = "INSERT INTO PUBLICACIONES (user_id, title, description, img_url, status, creation_timestamp) VALUES ($1, $2, $3, $4, $5, $6)";
+    const { title, description, img_url, status } = publicacion;
+    const email = publicacion.user_id; // Assuming email is passed as user_id
+
+    // Fetch the actual user_id from the USUARIOS table using email
+    const { rows } = await pool.query("SELECT user_id FROM USUARIOS WHERE email = $1", [email]);
+
+    if (rows.length === 0) {
+        throw new Error("User not found");
+    }
+
+    const user_id = rows[0].user_id;
+
+    const values = [uuidv4(), user_id, getCurrentTimestamp(), title, description, img_url, status];
+    const consulta = "INSERT INTO PUBLICACIONES (publication_id, user_id, creation_timestamp, title, description, img_url, status) VALUES ($1, $2, $3, $4, $5, $6, $7)";
     await pool.query(consulta, values);
 };
 
