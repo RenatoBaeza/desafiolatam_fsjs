@@ -1,3 +1,4 @@
+// Login.jsx
 import axios from 'axios'
 import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -26,16 +27,19 @@ const Login = () => {
     }
 
     axios.post(ENDPOINT.login, user)
-      .then(({ data }) => {
-        localStorage.setItem('token', data.token)
-        window.alert('Usuario identificado con éxito')
-        setDeveloper({})
-        navigate('/perfil')
-      })
-      .catch(({ response: { data } }) => {
-        console.error(data)
-        window.alert(`${data.message} 🙁.`)
-      })
+    .then(({ data }) => {
+      console.log('Received token:', data.token); // Debug log
+      localStorage.setItem('token', data.token);
+      console.log('Stored token:', localStorage.getItem('token'));
+      console.log('Token stored in localStorage:', localStorage.getItem('token')); // Debug log
+      window.alert('Usuario identificado con éxito')
+      setDeveloper({})
+      navigate('/perfil')
+    })
+    .catch(({ response: { data } }) => {
+      console.error(data)
+      window.alert(`${data.message} 🙁.`)
+    })
   }
 
   return (

@@ -1,3 +1,4 @@
+// Consultas.js
 const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');

@@ -1,3 +1,4 @@
+// Profile.jsx
 import axios from 'axios'
 import Context from '../contexts/Context'
 import { useContext, useEffect } from 'react'
@@ -15,6 +16,7 @@ const Profile = () => {
       .catch(({ response: { data } }) => {
         console.error(data)
         window.sessionStorage.removeItem('token')
+        console.log('Token in localStorage:', localStorage.getItem('token'));
         setDeveloper(null)
         navigate('/')
       })
@@ -25,7 +27,7 @@ const Profile = () => {
   return (
     <div className='py-5'>
       <h1>
-        Bienvenido <span className='fw-bold'>{getDeveloper?.email}</span>
+        Bienvenido <span className='fw-bold'>{getDeveloper?.email}!</span>
       </h1>
       <h3>
         {getDeveloper?.rol} en {getDeveloper?.lenguage}

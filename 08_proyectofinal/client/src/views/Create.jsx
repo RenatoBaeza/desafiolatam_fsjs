@@ -1,3 +1,4 @@
+// Create.jsx
 import axios from 'axios';
 import { useState } from 'react';
 import { ENDPOINT } from '../config/constants';
@@ -16,17 +17,12 @@ const Create = () => {
 
   const handleForm = (event) => {
     event.preventDefault();
-
-    // Retrieve the JWT token from local storage
     const token = localStorage.getItem('token');
-
-    // Check if the token exists, if not alert the user
     if (!token) {
-      window.alert('No token found. Please log in again.');
-      return;
+      console.error('No token found in localStorage');
+    } else {
+      console.log('Token being used:', token); // Debugging line
     }
-
-    // Send the publication data along with the token in the request headers
     axios
       .post(ENDPOINT.publications, publicacion, {
         headers: {
