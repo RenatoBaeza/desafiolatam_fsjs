@@ -33,6 +33,7 @@ const Profile = () => {
   return (
     <div className='py-5'>
       <h1>Bienvenido <span className='fw-bold'>{getDeveloper?.email}</span>!</h1>
+      <h2>Mis estrellas en venta</h2>
     </div>
   );
 }
