@@ -72,11 +72,10 @@ const validateToken = (req, res, next) => {
     }
 };
 
-const obtenerPublicaciones = async (email) => {
-    const values = [email];
+const obtenerPublicaciones = async () => {
     const consulta = "SELECT * FROM PUBLICACIONES";
-    const { rows: [publicaciones], rowCount } = await pool.query(consulta, values);
-    return publicaciones;
+    const { rows } = await pool.query(consulta);
+    return rows;  // Return all rows, not just the first one
 };
 
 const crearPublicacion = async (publicacion) => {

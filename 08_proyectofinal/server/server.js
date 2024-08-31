@@ -72,4 +72,13 @@ app.post("/publications", validateToken, async (req, res) => {
     }
 });
 
+app.get("/publications", async (req, res) => {
+    try {
+        const publicaciones = await obtenerPublicaciones();
+        res.send(publicaciones);  // Return all rows of publications
+    } catch (error) {
+        res.status(error.code || 500).send(error.message);
+    }
+});
+
 module.exports = app;
