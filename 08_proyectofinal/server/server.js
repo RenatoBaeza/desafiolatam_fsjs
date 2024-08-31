@@ -1,5 +1,5 @@
 // Server.js
-const { registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion} = require('./consultas');
+const { registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion, validateToken, obtenerPublicaciones} = require('./consultas');
 const express = require('express');
 const fs = require('fs');
 const jwt = require("jsonwebtoken");
@@ -15,24 +15,6 @@ app.listen(PORT, () => {
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
-
-const validateToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-
-    if (!authHeader) {
-        return res.status(401).send("Access denied. No token provided.");
-    }
-
-    const token = authHeader.split(' ')[1];  // Extract the token from the 'Bearer TOKEN' format
-
-    try {
-        const decoded = jwt.verify(token, "az_AZ");
-        req.user = decoded;
-        next();
-    } catch (error) {
-        return res.status(400).send("Invalid token.");
-    }
-};
 
 app.post("/usuarios", async (req, res) => {
     try {

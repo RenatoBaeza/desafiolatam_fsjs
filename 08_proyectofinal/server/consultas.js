@@ -52,6 +52,31 @@ const obtenerUsuario = async (email) => {
     return usuario;
 };
 
+const validateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+
+    if (!authHeader) {
+        return res.status(401).send("Access denied. No token provided.");
+    }
+
+    const token = authHeader.split(' ')[1];  // Extract the token from the 'Bearer TOKEN' format
+
+    try {
+        const decoded = jwt.verify(token, "az_AZ");
+        req.user = decoded;
+        next();
+    } catch (error) {
+        return res.status(400).send("Invalid token.");
+    }
+};
+
+const obtenerPublicaciones = async (email) => {
+    const values = [email];
+    const consulta = "SELECT * FROM PUBLICACIONES";
+    const { rows: [publicaciones], rowCount } = await pool.query(consulta, values);
+    return publicaciones;
+};
+
 const crearPublicacion = async (publicacion) => {
     const { title, description, img_url, status } = publicacion;
     const email = publicacion.user_id; // Assuming email is passed as user_id
@@ -70,4 +95,4 @@ const crearPublicacion = async (publicacion) => {
     await pool.query(consulta, values);
 };
 
-module.exports = { registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion };
+module.exports = app;
