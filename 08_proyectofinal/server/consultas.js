@@ -24,9 +24,22 @@ const registrarUsuario = async (usuario) => {
 const verificarCredenciales = async (email, password) => {
     const values = [email];
     const consulta = "SELECT * FROM USUARIOS WHERE email = $1";
-    const { rows: [usuario], rowCount } = await pool.query(consulta, values);
+    const { rows, rowCount } = await pool.query(consulta, values);
+
+    if (!rowCount) {
+        throw { code: 404, message: "User not found" };
+    }
+
+    const usuario = rows[0];
     const { password: passwordEncriptada } = usuario;
+
     const passwordEsCorrecta = bcrypt.compareSync(password, passwordEncriptada);
+
+    if (!passwordEsCorrecta) {
+        throw { code: 401, message: "Invalid credentials" };
+    }
+
+    return usuario; // Return the user data if credentials are correct
 };
 
 const obtenerUsuario = async (email) => {
