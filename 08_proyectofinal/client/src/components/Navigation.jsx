@@ -33,10 +33,10 @@ const Navigation = () => {
 
   return (
     <nav className='navbar'>
-      <span className='logo'>SJ</span>
+      <span className='logo'>Starstruck⭐</span>
       <div className='opciones'>
         <span className='me-3'>
-          <Link to='/'>Inicio<i className='fa-solid fa-house ms-2' /></Link>
+          <Link to='/'>Inicio<i className='fa-solid fa-house ms-2'/></Link>
         </span>
         {isLogin()}
       </div>

@@ -14,10 +14,10 @@ const pool = new Pool({
 });
 
 const registrarUsuario = async (usuario) => {
-    const { user_id, email, password, creation_timestamp, creation_date, status } = usuario;
+    const { user_id, email, password, creation_timestamp, status } = usuario;
     const passwordEncriptada = bcrypt.hashSync(password, 10);
-    const values = [uuidv4(), email, passwordEncriptada, getCurrentTimestamp(), creation_date, "active"];
-    const consulta = "INSERT INTO USUARIOS (user_id, email, password, creation_timestamp, creation_date, status) VALUES ($1, $2, $3, $4, $5, $6)";
+    const values = [uuidv4(), email, passwordEncriptada, getCurrentTimestamp(), "active"];
+    const consulta = "INSERT INTO USUARIOS (user_id, email, password, creation_timestamp, status) VALUES ($1, $2, $3, $4, $5)";
     await pool.query(consulta, values);
 };
 
@@ -25,14 +25,8 @@ const verificarCredenciales = async (email, password) => {
     const values = [email];
     const consulta = "SELECT * FROM USUARIOS WHERE email = $1";
     const { rows: [usuario], rowCount } = await pool.query(consulta, values);
-    if (!rowCount) {
-        throw { code: 401, message: "Email o contraseña incorrecta" };
-    }
     const { password: passwordEncriptada } = usuario;
     const passwordEsCorrecta = bcrypt.compareSync(password, passwordEncriptada);
-    if (!passwordEsCorrecta) {
-        throw { code: 401, message: "Email o contraseña incorrecta" };
-    }
 };
 
 const obtenerUsuario = async (email) => {
