@@ -1,7 +1,5 @@
 // constants.js
-import dotenv from 'dotenv';
-dotenv.config();
-export const URL_BASE = process.env.POSTGRES_URL
+export const URL_BASE = "https://desafiolatam-fsjs.onrender.com"
 
 export const ENDPOINT = {
   login: `${URL_BASE}/login`,
