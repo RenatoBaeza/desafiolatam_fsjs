@@ -3,7 +3,7 @@ import Context from '../contexts/Context';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ENDPOINT } from '../config/constants';
-import PublicationCard from '../components/PublicationCard';
+import MyPublicationCard from '../components/MyPublicationCard';
 import { Spinner } from 'react-bootstrap'; // Import Spinner from React Bootstrap
 
 const Profile = () => {
@@ -66,7 +66,7 @@ const Profile = () => {
           </Spinner>
         ) : (
           publications.map(publication => (
-            <PublicationCard key={publication.publication_id} publication={publication} />
+            <MyPublicationCard key={publication.publication_id} publication={publication} />
           ))
         )}
       </div>

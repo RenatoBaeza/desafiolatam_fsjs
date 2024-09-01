@@ -97,4 +97,26 @@ app.get("/my-publications", validateToken, async (req, res) => {
     }
 });
 
+app.delete('/publications/:id', validateToken, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const email = req.user.email;
+
+        // Get the user_id based on the email
+        const usuario = await obtenerUsuario(email);
+
+        // Ensure the publication belongs to the user making the request
+        const consulta = "DELETE FROM PUBLICACIONES WHERE publication_id = $1 AND user_id = $2 RETURNING *";
+        const { rowCount } = await pool.query(consulta, [id, usuario.user_id]);
+
+        if (rowCount === 0) {
+            return res.status(404).send("Publication not found or unauthorized.");
+        }
+
+        res.status(200).send("Publication deleted successfully");
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 module.exports = app;
