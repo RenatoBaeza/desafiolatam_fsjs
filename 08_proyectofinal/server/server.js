@@ -115,7 +115,8 @@ app.delete('/publications/:id', validateToken, async (req, res) => {
 
         res.status(200).send("Publication deleted successfully");
     } catch (error) {
-        res.status(500).send(error.message);
+        console.error("Error deleting publication:", error);
+        res.status(500).send(error.message); // More detailed error logging
     }
 });
 

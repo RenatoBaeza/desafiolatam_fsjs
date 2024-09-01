@@ -1,5 +1,5 @@
 // constants.js
-export const URL_BASE = "https://desafiolatam-fsjs.onrender.com"
+export const URL_BASE = process.env.API_URL
 
 export const ENDPOINT = {
   login: `${URL_BASE}/login`,
