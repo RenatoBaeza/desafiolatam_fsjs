@@ -3,10 +3,12 @@ import { useContext, useEffect, useState } from 'react';
 import Context from '../contexts/Context';
 import { ENDPOINT } from '../config/constants';
 import PublicationCard from '../components/PublicationCard';
+import { Spinner } from 'react-bootstrap'; // Import Spinner from React Bootstrap
 
 const Home = () => {
   const { setDeveloper } = useContext(Context);
   const [publications, setPublications] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   const getDeveloperData = () => {
     const token = window.sessionStorage.getItem('token');
@@ -20,19 +22,22 @@ const Home = () => {
     }
   };
 
-const fetchPublications = () => {
-  axios.get(ENDPOINT.publications)  // Use the correct endpoint property
-    .then(({ data }) => {
-      setPublications(data);  // Store publications data in state
-    })
-    .catch((error) => {
-      console.error("Error fetching publications:", error);
-    });
-};
+  const fetchPublications = () => {
+    setLoading(true); // Set loading to true before starting the API call
+    axios.get(ENDPOINT.publications)
+      .then(({ data }) => {
+        setPublications(data);
+        setLoading(false); // Set loading to false after data is fetched
+      })
+      .catch((error) => {
+        console.error("Error fetching publications:", error);
+        setLoading(false); // Set loading to false even if there’s an error
+      });
+  };
 
   useEffect(() => {
     getDeveloperData();
-    fetchPublications();  // Fetch publications when component mounts
+    fetchPublications();
   }, []);
 
   return (
@@ -42,10 +47,17 @@ const fetchPublications = () => {
 
       <h2>Estrellas activamente en venta</h2>
       <div className='d-flex flex-wrap justify-content-center'>
-        
-        {publications.map(publication => (
-          <PublicationCard key={publication.publication_id} publication={publication} />
-        ))}
+
+        {loading ? (  // Show spinner while loading
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        ) : (
+          publications.map(publication => (
+            <PublicationCard key={publication.publication_id} publication={publication} />
+          ))
+        )}
+
       </div>
     </div>
   );
