@@ -103,4 +103,16 @@ const crearPublicacion = async (publicacion) => {
     await pool.query(consulta, values);
 };
 
-module.exports = { registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion, validateToken, obtenerPublicaciones, obtenerPublicacionesUsuario };
+const obtenerPublicacionPorId = async (publication_id, user_id) => {
+    const consulta = "SELECT * FROM PUBLICACIONES WHERE publication_id = $1 AND user_id = $2";
+    const { rows, rowCount } = await pool.query(consulta, [publication_id, user_id]);
+
+    if (rowCount === 0) {
+        throw { code: 404, message: "Publication not found or unauthorized" };
+    }
+
+    return rows[0];  // Return the publication details
+};
+
+
+module.exports = { pool, registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion, validateToken, obtenerPublicaciones, obtenerPublicacionesUsuario, obtenerPublicacionPorId };

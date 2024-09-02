@@ -1,3 +1,4 @@
+// Profile.jsx
 import axios from 'axios';
 import Context from '../contexts/Context';
 import { useContext, useEffect, useState } from 'react';
@@ -10,10 +11,10 @@ const Profile = () => {
   const navigate = useNavigate();
   const { getDeveloper, setDeveloper } = useContext(Context);
   const [publications, setPublications] = useState([]);
-  const [loading, setLoading] = useState(true);  // Add loading state
+  const [loading, setLoading] = useState(true);
 
   const getDeveloperData = () => {
-    const token = localStorage.getItem('token');  // Or sessionStorage depending on your app logic
+    const token = localStorage.getItem('token');
     if (!token) {
       navigate('/');
       return;
@@ -36,22 +37,28 @@ const Profile = () => {
       return;
     }
 
-    setLoading(true);  // Set loading to true before starting the API call
+    setLoading(true);
     axios.get(`${ENDPOINT.myPublications}`, { headers: { Authorization: `Bearer ${token}` } })
       .then(({ data }) => {
-        setPublications(data);  // Store user-specific publications
-        setLoading(false);  // Set loading to false after data is fetched
+        setPublications(data);
+        setLoading(false);
       })
       .catch(error => {
         console.error("Error fetching user publications:", error);
-        setLoading(false);  // Set loading to false even if there’s an error
+        setLoading(false);
       });
+  };
+
+  // New onDelete function
+  const handleDeletePublication = (publicationId) => {
+    setPublications(prevPublications => 
+      prevPublications.filter(publication => publication.publication_id !== publicationId)
+    );
   };
 
   useEffect(() => {
     getDeveloperData();
-    fetchUserPublications();  // Fetch user-specific publications on mount
-    // No dependencies are needed here because we're managing token logic manually.
+    fetchUserPublications();
   }, []);
 
   return (
@@ -60,13 +67,17 @@ const Profile = () => {
       <h2>Mis estrellas en venta</h2>
       
       <div className='d-flex flex-wrap justify-content-center'>
-        {loading ? (  // Show spinner while loading
+        {loading ? (
           <Spinner animation="border" role="status">
             <span className="visually-hidden">Loading...</span>
           </Spinner>
         ) : (
           publications.map(publication => (
-            <MyPublicationCard key={publication.publication_id} publication={publication} />
+            <MyPublicationCard 
+              key={publication.publication_id} 
+              publication={publication} 
+              onDelete={handleDeletePublication}  // Pass the function as a prop
+            />
           ))
         )}
       </div>

@@ -8,6 +8,7 @@ import Registro from './views/Register'
 import Login from './views/Login'
 import Perfil from './views/Profile'
 import Create from './views/Create'
+import EditPublication from './views/EditPublication'
 
 const App = () => {
   const globalState = useDeveloper()
@@ -22,6 +23,7 @@ const App = () => {
           <Route path='/login' element={<Login />} />
           <Route path='/perfil' element={<Perfil />} />
           <Route path='/create' element={<Create />} />
+          <Route path="/editpublication/:id" element={<EditPublication />} />
         </Routes>
       </BrowserRouter>
     </Context.Provider>

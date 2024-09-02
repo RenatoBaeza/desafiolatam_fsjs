@@ -1,5 +1,5 @@
 // Server.js
-const { registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion, validateToken, obtenerPublicaciones, obtenerPublicacionesUsuario } = require('./consultas');
+const { pool, registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion, validateToken, obtenerPublicaciones, obtenerPublicacionesUsuario, obtenerPublicacionPorId } = require('./consultas');
 const express = require('express');
 const fs = require('fs');
 const jwt = require("jsonwebtoken");
@@ -101,11 +101,7 @@ app.delete('/publications/:id', validateToken, async (req, res) => {
     try {
         const { id } = req.params;
         const email = req.user.email;
-
-        // Get the user_id based on the email
         const usuario = await obtenerUsuario(email);
-
-        // Ensure the publication belongs to the user making the request
         const consulta = "DELETE FROM PUBLICACIONES WHERE publication_id = $1 AND user_id = $2 RETURNING *";
         const { rowCount } = await pool.query(consulta, [id, usuario.user_id]);
 
@@ -117,6 +113,47 @@ app.delete('/publications/:id', validateToken, async (req, res) => {
     } catch (error) {
         console.error("Error deleting publication:", error);
         res.status(500).send(error.message); // More detailed error logging
+    }
+});
+
+app.get('/publications/:id', validateToken, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const email = req.user.email;
+        const usuario = await obtenerUsuario(email);
+        const publicacion = await obtenerPublicacionPorId(id, usuario.user_id);
+        res.send(publicacion);
+    } catch (error) {
+        console.error("Error fetching publication:", error);
+        res.status(error.code || 500).send(error.message); // Handle errors properly
+    }
+});
+
+app.put('/publications/:id', validateToken, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const email = req.user.email;
+        const usuario = await obtenerUsuario(email);
+        
+        const { title, description, img_url, status } = req.body;
+        const consulta = `
+            UPDATE PUBLICACIONES
+            SET title = $1, description = $2, img_url = $3, status = $4
+            WHERE publication_id = $5 AND user_id = $6
+            RETURNING *;
+        `;
+        const values = [title, description, img_url, status, id, usuario.user_id];
+        
+        const { rowCount, rows } = await pool.query(consulta, values);
+
+        if (rowCount === 0) {
+            return res.status(404).send("Publication not found or unauthorized.");
+        }
+
+        res.status(200).send("Publication updated successfully");
+    } catch (error) {
+        console.error("Error updating publication:", error);
+        res.status(500).send(error.message);
     }
 });
 
