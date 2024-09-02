@@ -3,10 +3,12 @@ import { useContext, useEffect, useState } from 'react';
 import Context from '../contexts/Context';
 import { ENDPOINT } from '../config/constants';
 import PublicationCard from '../components/PublicationCard';
+import { Spinner } from 'react-bootstrap';
 
 const Home = () => {
   const { setDeveloper } = useContext(Context);
   const [publications, setPublications] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   const getDeveloperData = () => {
     const token = window.sessionStorage.getItem('token');
@@ -20,19 +22,21 @@ const Home = () => {
     }
   };
 
-const fetchPublications = () => {
-  axios.get(ENDPOINT.publications)  // Use the correct endpoint property
-    .then(({ data }) => {
-      setPublications(data);  // Store publications data in state
-    })
-    .catch((error) => {
-      console.error("Error fetching publications:", error);
-    });
-};
+  const fetchPublications = () => {
+    axios.get(ENDPOINT.publications)
+      .then(({ data }) => {
+        setPublications(data);
+        setLoading(false);  // Set loading to false once data is fetched
+      })
+      .catch((error) => {
+        console.error("Error fetching publications:", error);
+        setLoading(false);  // Stop loading if there is an error
+      });
+  };
 
   useEffect(() => {
     getDeveloperData();
-    fetchPublications();  // Fetch publications when component mounts
+    fetchPublications(); // Fetch publications when component mounts
   }, []);
 
   return (
@@ -41,12 +45,20 @@ const fetchPublications = () => {
       <p>¡Compra y vende tu estrella aquí!</p>
 
       <h2>Estrellas activamente en venta</h2>
-      <div className='d-flex flex-wrap justify-content-center'>
-        
-        {publications.map(publication => (
-          <PublicationCard key={publication.publication_id} publication={publication} />
-        ))}
-      </div>
+
+      {loading ? (  // Conditionally render spinner or content
+        <div className="d-flex justify-content-center py-5">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      ) : (
+        <div className='d-flex flex-wrap justify-content-center'>
+          {publications.map(publication => (
+            <PublicationCard key={publication.publication_id} publication={publication} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
