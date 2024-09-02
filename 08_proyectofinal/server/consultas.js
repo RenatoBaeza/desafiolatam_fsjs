@@ -103,7 +103,7 @@ const crearPublicacion = async (publicacion) => {
     await pool.query(consulta, values);
 };
 
-const obtenerPublicacionPorId = async (publication_id, user_id) => {
+const obtenerPublicacionPorIdUser = async (publication_id, user_id) => {
     const consulta = "SELECT * FROM PUBLICACIONES WHERE publication_id = $1 AND user_id = $2";
     const { rows, rowCount } = await pool.query(consulta, [publication_id, user_id]);
 
@@ -114,5 +114,15 @@ const obtenerPublicacionPorId = async (publication_id, user_id) => {
     return rows[0];  // Return the publication details
 };
 
+const obtenerPublicacionPorId = async (publication_id) => {
+    const consulta = "SELECT * FROM PUBLICACIONES WHERE publication_id = $1";
+    const { rows, rowCount } = await pool.query(consulta, [publication_id]);
 
-module.exports = { pool, registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion, validateToken, obtenerPublicaciones, obtenerPublicacionesUsuario, obtenerPublicacionPorId };
+    if (rowCount === 0) {
+        throw { code: 404, message: "Publication not found or unauthorized" };
+    }
+
+    return rows[0];  // Return the publication details
+};
+
+module.exports = { pool, registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion, validateToken, obtenerPublicaciones, obtenerPublicacionesUsuario, obtenerPublicacionPorId, obtenerPublicacionPorIdUser };

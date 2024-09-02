@@ -1,3 +1,4 @@
+// App.jsx
 import './App.css'
 import Context from './contexts/Context'
 import useDeveloper from './hooks/useDeveloper'
@@ -9,6 +10,7 @@ import Login from './views/Login'
 import Perfil from './views/Profile'
 import Create from './views/Create'
 import EditPublication from './views/EditPublication'
+import PublicationDetails from './views/PublicationDetails';
 
 const App = () => {
   const globalState = useDeveloper()
@@ -24,6 +26,7 @@ const App = () => {
           <Route path='/perfil' element={<Perfil />} />
           <Route path='/create' element={<Create />} />
           <Route path="/editpublication/:id" element={<EditPublication />} />
+          <Route path='/publications/:id' element={<PublicationDetails />} />
         </Routes>
       </BrowserRouter>
     </Context.Provider>

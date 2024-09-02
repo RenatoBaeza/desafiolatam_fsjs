@@ -1,5 +1,7 @@
+// PublicationCard.jsx
 import React from 'react';
 import { Card, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const PublicationCard = ({ publication }) => {
   return (
@@ -8,7 +10,9 @@ const PublicationCard = ({ publication }) => {
       <Card.Body>
         <Card.Title>{publication.title}</Card.Title>
         <Card.Text>{publication.description}</Card.Text>
-        <Button variant="primary">Ver más</Button>
+        <Link to={`/publications/${publication.publication_id}`}>
+          <Button variant="primary">Ver más</Button>
+        </Link>
       </Card.Body>
       <Card.Footer>
         <Card.Text>Status: {publication.status}</Card.Text>

@@ -1,5 +1,5 @@
 // Server.js
-const { pool, registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion, validateToken, obtenerPublicaciones, obtenerPublicacionesUsuario, obtenerPublicacionPorId } = require('./consultas');
+const { pool, registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion, validateToken, obtenerPublicaciones, obtenerPublicacionesUsuario, obtenerPublicacionPorId, obtenerPublicacionPorIdUser } = require('./consultas');
 const express = require('express');
 const fs = require('fs');
 const jwt = require("jsonwebtoken");
@@ -116,16 +116,13 @@ app.delete('/publications/:id', validateToken, async (req, res) => {
     }
 });
 
-app.get('/publications/:id', validateToken, async (req, res) => {
+app.get('/publications/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const email = req.user.email;
-        const usuario = await obtenerUsuario(email);
-        const publicacion = await obtenerPublicacionPorId(id, usuario.user_id);
+        const publicacion = await obtenerPublicacionPorId(id);
         res.send(publicacion);
     } catch (error) {
-        console.error("Error fetching publication:", error);
-        res.status(error.code || 500).send(error.message); // Handle errors properly
+        res.status(error.code || 500).send(error.message);
     }
 });
 
