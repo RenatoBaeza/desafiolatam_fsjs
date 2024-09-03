@@ -16,6 +16,14 @@ CREATE TABLE PUBLICACIONES (
     description TEXT,
     img_url VARCHAR(255),
     status VARCHAR(50) NOT NULL,
+    base_price DECIMAL(10, 2),
+    discount_price DECIMAL(10, 2),
+    constellation VARCHAR(255),
+    color VARCHAR(255),
+    distance INTEGER,
+    diameter DECIMAL(10, 2),
+    radius DECIMAL(10, 2),
+    luminosity DECIMAL(10, 2);
     FOREIGN KEY (user_id) REFERENCES USUARIOS(user_id)
 );
 

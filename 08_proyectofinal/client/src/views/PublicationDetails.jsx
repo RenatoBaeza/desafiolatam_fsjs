@@ -1,8 +1,9 @@
+// PublicationDetails.jsx
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { ENDPOINT } from "../config/constants";
-import { Spinner } from "react-bootstrap";
+import { Container, Row, Col, Card, Spinner, Badge, Button } from "react-bootstrap";
 
 const PublicationDetails = () => {
   const { id } = useParams();
@@ -36,18 +37,70 @@ const PublicationDetails = () => {
     return <p>Publication not found</p>;
   }
 
+  const {
+    title,
+    description,
+    img_url,
+    status,
+    base_price,
+    discount_price,
+    constellation,
+    color,
+    distance,
+    diameter,
+    radius,
+    luminosity
+  } = publication;
+
+  const discountPercentage = (((discount_price / base_price) - 1) * 100).toFixed(0) + '% OFF!';
+
   return (
-    <div className="py-5">
-      <h1>{publication.title}</h1>
-      <img
-        src={publication.img_url}
-        alt={publication.title}
-        className="img-fluid"
-        style={{ aspectRatio: '1', objectFit: 'cover', width: '18rem', margin: '10px' }}
-      />
-      <p>{publication.description}</p>
-      <p>Status: {publication.status}</p>
-    </div>
+    <Container className="py-5">
+      <Row className="justify-content-center">
+        <Col md={12}>
+          <Card className="shadow-lg">
+            <Row>
+              <Col md={4} className="d-flex align-items-center">
+                <Card.Img
+                  variant="top"
+                  src={img_url}
+                  alt={title}
+                  className="img-fluid"
+                  style={{ objectFit: "cover", height: "100%" }}
+                />
+              </Col>
+              <Col md={6}>
+                <Card.Body>
+                  <Card.Title className="">{title}</Card.Title>
+                  <Card.Text>{description}</Card.Text>
+                  <div className="mb-4">
+                    <h4 className="text-danger">${parseFloat(discount_price).toLocaleString()}</h4>
+                    <Badge bg="danger" className="ms-2" style={{ fontSize: '1rem' }}>{discountPercentage}</Badge>
+                    {discount_price !== base_price && (
+                      <h6 className="text-muted"><del>${parseFloat(base_price).toLocaleString()}</del></h6>
+                    )}
+                  </div>
+
+                  <Card.Text>
+                    <strong>Constellation:</strong> {constellation} <br />
+                    <strong>Color:</strong> {color} <br />
+                    <strong>Distance:</strong> {distance} light years <br />
+                    <strong>Diameter:</strong> {diameter} km <br />
+                    <strong>Radius:</strong> {radius} km <br />
+                    <strong>Luminosity:</strong> {luminosity} times the Sun's luminosity
+                  </Card.Text>
+                  <i className='fa-solid fa-cart-plus fa-xl mx-2' />
+                  <i className="fa-solid fa-heart-circle-plus fa-xl mx-2" />
+                  <Button variant="primary" className="mt-3">
+                    Añadir al carrito
+                  </Button>
+                </Card.Body>
+              </Col>
+            </Row>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

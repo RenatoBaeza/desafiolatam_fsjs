@@ -86,7 +86,7 @@ const obtenerPublicacionesUsuario = async (user_id) => {
 };
 
 const crearPublicacion = async (publicacion) => {
-    const { title, description, img_url, status } = publicacion;
+    const { title, description, img_url, status, base_price, discount_price, constellation, color, distance, diameter, radius, luminosity } = publicacion;
     const email = publicacion.user_id;
     const { rows } = await pool.query("SELECT user_id FROM USUARIOS WHERE email = $1", [email]);
 
@@ -95,9 +95,8 @@ const crearPublicacion = async (publicacion) => {
     }
 
     const user_id = rows[0].user_id;
-
-    const values = [uuidv4(), user_id, getCurrentTimestamp(), title, description, img_url, status];
-    const consulta = "INSERT INTO PUBLICACIONES (publication_id, user_id, creation_timestamp, title, description, img_url, status) VALUES ($1, $2, $3, $4, $5, $6, $7)";
+    const values = [uuidv4(), user_id, getCurrentTimestamp(), title, description, img_url, status, base_price, discount_price, constellation, color, distance, diameter, radius, luminosity];
+    const consulta = "INSERT INTO PUBLICACIONES (publication_id, user_id, creation_timestamp, title, description, img_url, status, base_price, discount_price, constellation, color, distance, diameter, radius, luminosity) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)";
     await pool.query(consulta, values);
 };
 

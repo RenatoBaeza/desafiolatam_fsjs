@@ -1,9 +1,9 @@
 // MyPublicationCard.jsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';  // Import this
+import { useNavigate } from 'react-router-dom';
 import { Card, Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
-import { ENDPOINT } from '../config/constants'; // Adjust the import based on your file structure
+import { ENDPOINT } from '../config/constants';
 
 const MyPublicationCard = ({ publication, onDelete }) => {
   const [showModal, setShowModal] = useState(false);
@@ -34,13 +34,9 @@ const MyPublicationCard = ({ publication, onDelete }) => {
                   className="img-fluid" style={{ aspectRatio: '1', objectFit: 'cover' }} />
         <Card.Body>
           <Card.Title>{publication.title}</Card.Title>
-          <Card.Text>{publication.description}</Card.Text>
           <Button variant="success" onClick={handleEdit}>Editar</Button>
           <Button variant="danger" onClick={() => setShowModal(true)}>Borrar</Button>
         </Card.Body>
-        <Card.Footer>
-          <Card.Text>Status: {publication.status}</Card.Text>
-        </Card.Footer>
       </Card>
 
       {/* Confirmation Modal */}

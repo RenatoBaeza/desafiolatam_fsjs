@@ -28,10 +28,10 @@ const Login = () => {
 
     axios.post(ENDPOINT.login, user)
     .then(({ data }) => {
-      console.log('Received token:', data.token); // Debug log
+      console.log('Received token:', data.token);
       localStorage.setItem('token', data.token);
       console.log('Stored token:', localStorage.getItem('token'));
-      console.log('Token stored in localStorage:', localStorage.getItem('token')); // Debug log
+      console.log('Token stored in localStorage:', localStorage.getItem('token'));
       window.alert('Usuario identificado con éxito')
       setDeveloper({})
       navigate('/perfil')

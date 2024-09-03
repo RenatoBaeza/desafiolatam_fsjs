@@ -49,14 +49,14 @@ app.get("/usuarios", validateToken, async (req, res) => {
 
 app.post("/publications", validateToken, async (req, res) => {
     try {
-        const { title, description, img_url, status } = req.body;
+        const { title, description, img_url, status, base_price, discount_price, constellation, color, distance, diameter, radius, luminosity } = req.body;
         const user_id = req.user.email;
 
         if (!title || !status) {
             return res.status(400).send("Title and status are required");
         }
 
-        const publicacion = {user_id, title, description, img_url, status, creation_timestamp: new Date()};
+        const publicacion = {user_id, title, description, img_url, status, creation_timestamp: new Date(), base_price, discount_price, constellation, color, distance, diameter, radius, luminosity};
         await crearPublicacion(publicacion);
         res.status(201).send("Publication created successfully");
     } catch (error) {
@@ -120,17 +120,15 @@ app.put('/publications/:id', validateToken, async (req, res) => {
         const email = req.user.email;
         const usuario = await obtenerUsuario(email);
         
-        const { title, description, img_url, status } = req.body;
+        const { title, description, img_url, status, base_price, discount_price, constellation, color, distance, diameter, radius, luminosity } = req.body;
         const consulta = `
             UPDATE PUBLICACIONES
-            SET title = $1, description = $2, img_url = $3, status = $4
-            WHERE publication_id = $5 AND user_id = $6
+            SET title = $3, description = $4, img_url = $5, status = $6, base_price = $7, discount_price = $8 , constellation = $9, color = $10, distance = $11, diameter = $12, radius = $13, luminosity = $14
+            WHERE publication_id = $1 AND user_id = $2
             RETURNING *;
         `;
-        const values = [title, description, img_url, status, id, usuario.user_id];
-        
+        const values = [id, usuario.user_id, title, description, img_url, status, base_price, discount_price, constellation, color, distance, diameter, radius, luminosity];
         const { rowCount, rows } = await pool.query(consulta, values);
-
         if (rowCount === 0) {
             return res.status(404).send("Publication not found or unauthorized.");
         }

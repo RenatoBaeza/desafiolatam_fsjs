@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ENDPOINT } from '../config/constants';
 import MyPublicationCard from '../components/MyPublicationCard';
-import { Spinner } from 'react-bootstrap'; // Import Spinner from React Bootstrap
+import { Spinner } from 'react-bootstrap';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -49,7 +49,6 @@ const Profile = () => {
       });
   };
 
-  // New onDelete function
   const handleDeletePublication = (publicationId) => {
     setPublications(prevPublications => 
       prevPublications.filter(publication => publication.publication_id !== publicationId)
@@ -76,7 +75,7 @@ const Profile = () => {
             <MyPublicationCard 
               key={publication.publication_id} 
               publication={publication} 
-              onDelete={handleDeletePublication}  // Pass the function as a prop
+              onDelete={handleDeletePublication}
             />
           ))
         )}
