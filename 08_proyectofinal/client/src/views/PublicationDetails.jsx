@@ -43,6 +43,7 @@ const PublicationDetails = () => {
         src={publication.img_url}
         alt={publication.title}
         className="img-fluid"
+        style={{ aspectRatio: '1', objectFit: 'cover', width: '18rem', margin: '10px' }}
       />
       <p>{publication.description}</p>
       <p>Status: {publication.status}</p>

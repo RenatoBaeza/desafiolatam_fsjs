@@ -8,7 +8,7 @@ import { Spinner } from 'react-bootstrap';
 const Home = () => {
   const { setDeveloper } = useContext(Context);
   const [publications, setPublications] = useState([]);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
 
   const getDeveloperData = () => {
     const token = window.sessionStorage.getItem('token');
@@ -26,27 +26,26 @@ const Home = () => {
     axios.get(ENDPOINT.publications)
       .then(({ data }) => {
         setPublications(data);
-        setLoading(false);  // Set loading to false once data is fetched
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching publications:", error);
-        setLoading(false);  // Stop loading if there is an error
+        setLoading(false);
       });
   };
 
   useEffect(() => {
     getDeveloperData();
-    fetchPublications(); // Fetch publications when component mounts
+    fetchPublications();
   }, []);
 
   return (
     <div className='py-5'>
       <h1>Bienvenido a <span className='fw-bold'>⭐Starstruck</span></h1>
       <p>¡Compra y vende tu estrella aquí!</p>
-
       <h2>Estrellas activamente en venta</h2>
 
-      {loading ? (  // Conditionally render spinner or content
+      {loading ? (
         <div className="d-flex justify-content-center py-5">
           <Spinner animation="border" role="status">
             <span className="visually-hidden">Loading...</span>

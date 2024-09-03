@@ -29,8 +29,8 @@ app.post("/usuarios", async (req, res) => {
 app.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
-        const usuario = await verificarCredenciales(email, password); // It throws an error if credentials are invalid
-        const token = jwt.sign({ email: usuario.email }, "az_AZ", { expiresIn: '1h' }); // Token expires in 1 hour
+        const usuario = await verificarCredenciales(email, password);
+        const token = jwt.sign({ email: usuario.email }, "az_AZ", { expiresIn: '1h' });
         res.send({ token });
     } catch (error) {
         res.status(error.code || 500).send(error.message);
@@ -56,15 +56,7 @@ app.post("/publications", validateToken, async (req, res) => {
             return res.status(400).send("Title and status are required");
         }
 
-        const publicacion = {
-            user_id,
-            title,
-            description,
-            img_url,
-            status,
-            creation_timestamp: new Date()
-        };
-
+        const publicacion = {user_id, title, description, img_url, status, creation_timestamp: new Date()};
         await crearPublicacion(publicacion);
         res.status(201).send("Publication created successfully");
     } catch (error) {
@@ -75,7 +67,7 @@ app.post("/publications", validateToken, async (req, res) => {
 app.get("/publications", async (req, res) => {
     try {
         const publicaciones = await obtenerPublicaciones();
-        res.send(publicaciones);  // Return all rows of publications
+        res.send(publicaciones);
     } catch (error) {
         res.status(error.code || 500).send(error.message);
     }
@@ -84,11 +76,7 @@ app.get("/publications", async (req, res) => {
 app.get("/my-publications", validateToken, async (req, res) => {
     try {
         const email = req.user.email;
-        
-        // Fetch the user to get their user_id
         const usuario = await obtenerUsuario(email);
-
-        // Get the publications for this specific user
         const publicaciones = await obtenerPublicacionesUsuario(usuario.user_id);
         
         res.send(publicaciones);
@@ -112,7 +100,7 @@ app.delete('/publications/:id', validateToken, async (req, res) => {
         res.status(200).send("Publication deleted successfully");
     } catch (error) {
         console.error("Error deleting publication:", error);
-        res.status(500).send(error.message); // More detailed error logging
+        res.status(500).send(error.message);
     }
 });
 

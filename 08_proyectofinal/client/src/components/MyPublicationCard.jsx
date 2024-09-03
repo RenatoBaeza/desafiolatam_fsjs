@@ -14,7 +14,7 @@ const MyPublicationCard = ({ publication, onDelete }) => {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(() => {
-      if (onDelete) onDelete(publication.publication_id);  // Ensure onDelete is called
+      if (onDelete) onDelete(publication.publication_id);
       setShowModal(false);
     })
     .catch(error => {

@@ -62,7 +62,7 @@ const validateToken = (req, res, next) => {
         return res.status(401).send("Access denied. No token provided.");
     }
 
-    const token = authHeader.split(' ')[1];  // Extract the token from the 'Bearer TOKEN' format
+    const token = authHeader.split(' ')[1];
 
     try {
         const decoded = jwt.verify(token, "az_AZ");
@@ -76,7 +76,7 @@ const validateToken = (req, res, next) => {
 const obtenerPublicaciones = async () => {
     const consulta = "SELECT * FROM PUBLICACIONES";
     const { rows } = await pool.query(consulta);
-    return rows;  // Return all rows, not just the first one
+    return rows;
 };
 
 const obtenerPublicacionesUsuario = async (user_id) => {
@@ -87,9 +87,7 @@ const obtenerPublicacionesUsuario = async (user_id) => {
 
 const crearPublicacion = async (publicacion) => {
     const { title, description, img_url, status } = publicacion;
-    const email = publicacion.user_id; // Assuming email is passed as user_id
-
-    // Fetch the actual user_id from the USUARIOS table using email
+    const email = publicacion.user_id;
     const { rows } = await pool.query("SELECT user_id FROM USUARIOS WHERE email = $1", [email]);
 
     if (rows.length === 0) {
@@ -111,7 +109,7 @@ const obtenerPublicacionPorIdUser = async (publication_id, user_id) => {
         throw { code: 404, message: "Publication not found or unauthorized" };
     }
 
-    return rows[0];  // Return the publication details
+    return rows[0];
 };
 
 const obtenerPublicacionPorId = async (publication_id) => {
@@ -122,7 +120,7 @@ const obtenerPublicacionPorId = async (publication_id) => {
         throw { code: 404, message: "Publication not found or unauthorized" };
     }
 
-    return rows[0];  // Return the publication details
+    return rows[0];
 };
 
 module.exports = { pool, registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion, validateToken, obtenerPublicaciones, obtenerPublicacionesUsuario, obtenerPublicacionPorId, obtenerPublicacionPorIdUser };
