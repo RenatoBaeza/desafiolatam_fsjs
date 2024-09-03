@@ -4,6 +4,7 @@ import Context from './contexts/Context'
 import useDeveloper from './hooks/useDeveloper'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navigation from './components/Navigation'
+import Footer from './components/Footer'
 import Home from './views/Home'
 import Registro from './views/Register'
 import Login from './views/Login'
@@ -28,6 +29,7 @@ const App = () => {
           <Route path="/editpublication/:id" element={<EditPublication />} />
           <Route path='/publications/:id' element={<PublicationDetails />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </Context.Provider>
   )
