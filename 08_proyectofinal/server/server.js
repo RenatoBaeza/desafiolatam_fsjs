@@ -1,5 +1,6 @@
 // Server.js
-const { pool, registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion, validateToken, obtenerPublicaciones, obtenerPublicacionesUsuario, obtenerPublicacionPorId, obtenerPublicacionPorIdUser } = require('./consultas');
+const { pool, registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion, validateToken
+    , obtenerPublicaciones, obtenerPublicacionesUsuario, obtenerPublicacionPorId, agregarFavorito, eliminarFavorito, obtenerFavoritosUsuario } = require('./consultas');
 const express = require('express');
 const fs = require('fs');
 const jwt = require("jsonwebtoken");
@@ -136,6 +137,43 @@ app.put('/publications/:id', validateToken, async (req, res) => {
         res.status(200).send("Publication updated successfully");
     } catch (error) {
         console.error("Error updating publication:", error);
+        res.status(500).send(error.message);
+    }
+});
+
+app.post("/favorites", validateToken, async (req, res) => {
+    try {
+        const email = req.user.email;
+        const usuario = await obtenerUsuario(email);
+        const { publication_id } = req.body;
+
+        await agregarFavorito(usuario.id, publication_id);
+        res.status(201).send("Favorite added successfully");
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+app.delete("/favorites", validateToken, async (req, res) => {
+    try {
+        const email = req.user.email;
+        const usuario = await obtenerUsuario(email);
+        const { publication_id } = req.body;
+
+        await eliminarFavorito(usuario.id, publication_id);
+        res.status(200).send("Favorite removed successfully");
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+app.get("/favorites", validateToken, async (req, res) => {
+    try {
+        const email = req.user.email;
+        const usuario = await obtenerUsuario(email);
+        const favoritos = await obtenerFavoritosUsuario(usuario.id);
+        res.send(favoritos);
+    } catch (error) {
         res.status(500).send(error.message);
     }
 });
