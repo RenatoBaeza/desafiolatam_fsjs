@@ -1,3 +1,4 @@
+// PublicationCard.jsx
 import React, { useState, useEffect } from 'react';
 import { Container, Card, Badge, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -14,10 +15,9 @@ const PublicationCard = ({ publication, userFavorites, updateFavorites }) => {
   const discountPercentage = (((publication.discount_price / publication.base_price) - 1) * 100).toFixed(0) + '% OFF!';
 
   useEffect(() => {
-    if (userFavorites && userFavorites.some(fav => fav.publication_id === publication.publication_id)) {
-      setIsFavorite(true);
-    }
+    setIsFavorite(userFavorites.some(fav => fav.publication_id === publication.publication_id));
   }, [userFavorites, publication.publication_id]);
+  
 
   const toggleFavorite = async () => {
     try {
@@ -27,15 +27,12 @@ const PublicationCard = ({ publication, userFavorites, updateFavorites }) => {
       };
   
       if (isFavorite) {
-        await axios.delete(ENDPOINT.favorites, {
-          data: { publication_id: publication.id },
-          ...config
-        });
-        updateFavorites(publication.id, 'remove');
+        await axios.delete(ENDPOINT.favorites, {data: { publication_id: publication.publication_id }, ...config});
+        updateFavorites(publication.publication_id, 'remove');
         setIsFavorite(false);
       } else {
-        await axios.post(ENDPOINT.favorites, { publication_id: publication.id }, config);
-        updateFavorites(publication.id, 'add');
+        await axios.post(ENDPOINT.favorites, { publication_id: publication.publication_id }, config);
+        updateFavorites(publication.publication_id, 'add');
         setIsFavorite(true);
       }
     } catch (error) {

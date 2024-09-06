@@ -123,30 +123,24 @@ const obtenerPublicacionPorId = async (publication_id) => {
 };
 
 const agregarFavorito = async (user_id, publication_id) => {
-    const values = [user_id, publication_id, "active"];
+    const values = [user_id, publication_id];
     const consulta = `
-        INSERT INTO FAVORITES (user_id, publication_id, status)
-        VALUES ($1, $2, $3)
+        INSERT INTO FAVORITES (user_id, publication_id) VALUES ($1, $2)
         ON CONFLICT (user_id, publication_id) DO UPDATE
-        SET status = 'active', creation_timestamp = CURRENT_TIMESTAMP;
-    `;
+        SET creation_timestamp = CURRENT_TIMESTAMP;`;
     await pool.query(consulta, values);
 };
 
 const eliminarFavorito = async (user_id, publication_id) => {
     const values = [user_id, publication_id];
-    const consulta = `
-        DELETE FROM FAVORITES WHERE user_id = $1 AND publication_id = $2;
-    `;
+    const consulta = `DELETE FROM FAVORITES WHERE user_id = $1 AND publication_id = $2;`;
     await pool.query(consulta, values);
 };
 
 const obtenerFavoritosUsuario = async (user_id) => {
-    const consulta = `
-        SELECT P.* FROM PUBLICACIONES P
-        JOIN FAVORITES F ON P.id = F.publication_id
-        WHERE F.user_id = $1 AND F.status = 'active';
-    `;
+    const consulta = `SELECT DISTINCT PUBLICATION_ID
+                      FROM FAVORITES
+                      WHERE user_id = $1;`;
     const { rows } = await pool.query(consulta, [user_id]);
     return rows;
 };

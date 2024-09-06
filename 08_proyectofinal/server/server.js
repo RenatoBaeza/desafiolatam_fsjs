@@ -146,8 +146,8 @@ app.post("/favorites", validateToken, async (req, res) => {
         const email = req.user.email;
         const usuario = await obtenerUsuario(email);
         const { publication_id } = req.body;
-
-        await agregarFavorito(usuario.id, publication_id);
+        console.log("Publication ID is " + publication_id);
+        await agregarFavorito(usuario.user_id, publication_id);
         res.status(201).send("Favorite added successfully");
     } catch (error) {
         res.status(500).send(error.message);
@@ -160,7 +160,7 @@ app.delete("/favorites", validateToken, async (req, res) => {
         const usuario = await obtenerUsuario(email);
         const { publication_id } = req.body;
 
-        await eliminarFavorito(usuario.id, publication_id);
+        await eliminarFavorito(usuario.user_id, publication_id);
         res.status(200).send("Favorite removed successfully");
     } catch (error) {
         res.status(500).send(error.message);
@@ -171,7 +171,7 @@ app.get("/favorites", validateToken, async (req, res) => {
     try {
         const email = req.user.email;
         const usuario = await obtenerUsuario(email);
-        const favoritos = await obtenerFavoritosUsuario(usuario.id);
+        const favoritos = await obtenerFavoritosUsuario(usuario.user_id);
         res.send(favoritos);
     } catch (error) {
         res.status(500).send(error.message);

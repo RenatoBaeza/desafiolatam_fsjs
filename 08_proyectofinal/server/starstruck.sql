@@ -23,18 +23,17 @@ CREATE TABLE PUBLICACIONES (
     distance INTEGER,
     diameter DECIMAL(10, 2),
     radius DECIMAL(10, 2),
-    luminosity DECIMAL(10, 2);
+    luminosity DECIMAL(10, 2),
     FOREIGN KEY (user_id) REFERENCES USUARIOS(user_id)
 );
 
 CREATE TABLE FAVORITES (
-    user_id INT NOT NULL,
-    publication_id INT NOT NULL,
+    user_id VARCHAR(255) NOT NULL,
+    publication_id VARCHAR(255) NOT NULL,
     creation_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(50) NOT NULL,
     PRIMARY KEY (user_id, publication_id),
-    FOREIGN KEY (user_id) REFERENCES USUARIOS(id),
-    FOREIGN KEY (publication_id) REFERENCES PUBLICACIONES(id)
+    FOREIGN KEY (user_id) REFERENCES USUARIOS(user_id),
+    FOREIGN KEY (publication_id) REFERENCES PUBLICACIONES(publication_id)
 );
 
 CREATE TABLE PURCHASES (

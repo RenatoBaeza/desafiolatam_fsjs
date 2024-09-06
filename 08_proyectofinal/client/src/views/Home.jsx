@@ -1,3 +1,4 @@
+// Home.jsx
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import Context from '../contexts/Context';
@@ -12,12 +13,12 @@ const Home = () => {
   const [userFavorites, setUserFavorites] = useState([]);
 
   const getDeveloperData = () => {
-    const token = window.sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     if (token) {
       axios.get(ENDPOINT.users, { headers: { Authorization: `Bearer ${token}` } })
         .then(({ data: [user] }) => setDeveloper({ ...user }))
         .catch(() => {
-          window.sessionStorage.removeItem('token');
+          localStorage.removeItem('token');
           setDeveloper(null);
         });
     }
@@ -36,10 +37,11 @@ const Home = () => {
   };
 
   const fetchFavorites = () => {
-    const token = window.sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     if (token) {
       axios.get(ENDPOINT.favorites, { headers: { Authorization: `Bearer ${token}` } })
         .then(({ data }) => {
+          console.log('Fetched Favorites:', data); // Check if favorites are fetched correctly
           setUserFavorites(data);
         })
         .catch((error) => {
@@ -48,12 +50,12 @@ const Home = () => {
     }
   };
 
-  const updateFavorites = (publicationId, action) => {
+  const updateFavorites = (publication_id, action) => {
     setUserFavorites(prevFavorites => {
       if (action === 'add') {
-        return [...prevFavorites, { publication_id: publicationId }];
+        return [...prevFavorites, { publication_id: publication_id }];
       } else if (action === 'remove') {
-        return prevFavorites.filter(fav => fav.publication_id !== publicationId);
+        return prevFavorites.filter(fav => fav.publication_id !== publication_id);
       }
       return prevFavorites;
     });
