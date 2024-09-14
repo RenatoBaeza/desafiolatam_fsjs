@@ -1,15 +1,16 @@
-// Profile.jsx
+// ProfileMyFavorites.jsx
 import axios from 'axios';
 import Context from '../contexts/Context';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ENDPOINT } from '../config/constants';
-import { Spinner, Card, Button, Row, Col } from 'react-bootstrap';
+import MyFavoriteCard from '../components/MyFavoriteCard';
+import { Spinner } from 'react-bootstrap';
 
-const Profile = () => {
+const ProfileMyFavorites = () => {
   const navigate = useNavigate();
   const { getDeveloper, setDeveloper } = useContext(Context);
-  const [publications, setPublications] = useState([]);
+  const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const getDeveloperData = () => {
@@ -29,7 +30,7 @@ const Profile = () => {
       });
   };
 
-  const fetchUserPublications = () => {
+  const fetchFavoritePublications = () => {
     const token = localStorage.getItem('token');
     if (!token) {
       navigate('/');
@@ -37,32 +38,27 @@ const Profile = () => {
     }
 
     setLoading(true);
-    axios.get(`${ENDPOINT.myPublications}`, { headers: { Authorization: `Bearer ${token}` } })
+    axios.get(`${ENDPOINT.favorites}`, { headers: { Authorization: `Bearer ${token}` } })
       .then(({ data }) => {
-        setPublications(data);
+        setFavorites(data);
+        console.log(data);
         setLoading(false);
       })
       .catch(error => {
-        console.error("Error fetching user publications:", error);
+        console.error("Error fetching favorite publications:", error);
         setLoading(false);
       });
   };
 
-  const handleDeletePublication = (publicationId) => {
-    setPublications(prevPublications => 
-      prevPublications.filter(publication => publication.publication_id !== publicationId)
-    );
-  };
-
   useEffect(() => {
     getDeveloperData();
-    fetchUserPublications();
+    fetchFavoritePublications();
   }, []);
 
   return (
     <div className='py-5'>
       <h1>Bienvenido <span className='fw-bold'>{getDeveloper?.email}</span>!</h1>
-      <h2>Mi perfil</h2>
+      <h2>Mis estrellas favoritas</h2>
       
       <div className='d-flex flex-wrap justify-content-center'>
         {loading ? (
@@ -70,31 +66,16 @@ const Profile = () => {
             <span className="visually-hidden">Loading...</span>
           </Spinner>
         ) : (
-          <Row className='my-4'>
-          <Col md={6}>
-            <Card className='mb-4'>
-              <Card.Body>
-                <Card.Title>My Publications</Card.Title>
-                <Card.Text>View and manage your published stars.</Card.Text>
-                <Button onClick={() => navigate('/ProfileMyPublications')}>Go to My Publications</Button>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col md={6}>
-            <Card className='mb-4'>
-              <Card.Body>
-                <Card.Title>My Favorites</Card.Title>
-                <Card.Text>See the stars you’ve favorited.</Card.Text>
-                <Button onClick={() => navigate('/ProfileMyFavorites')}>Go to My Favorites</Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-
+          favorites.map(favorite => (
+            <MyFavoriteCard 
+              key={favorite.publication_id} 
+              publication={favorite} 
+            />
+          ))
         )}
       </div>
     </div>
   );
 }
 
-export default Profile;
+export default ProfileMyFavorites;
