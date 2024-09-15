@@ -139,7 +139,7 @@ const eliminarFavorito = async (user_id, publication_id) => {
 
 const obtenerFavoritosUsuario = async (user_id) => {
     const consulta = `
-            SELECT P.* 
+            SELECT P.*
             FROM PUBLICACIONES P 
             INNER JOIN FAVORITES F ON P.publication_id = F.publication_id 
             WHERE F.user_id = $1

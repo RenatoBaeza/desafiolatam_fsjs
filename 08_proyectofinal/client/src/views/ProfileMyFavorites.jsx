@@ -41,13 +41,20 @@ const ProfileMyFavorites = () => {
     axios.get(`${ENDPOINT.favorites}`, { headers: { Authorization: `Bearer ${token}` } })
       .then(({ data }) => {
         setFavorites(data);
-        console.log(data);
         setLoading(false);
       })
       .catch(error => {
         console.error("Error fetching favorite publications:", error);
         setLoading(false);
       });
+  };
+
+  const updateFavorites = (publicationId, action) => {
+    if (action === 'remove') {
+      setFavorites(favorites.filter(fav => fav.publication_id !== publicationId));
+    } else {
+      // Optionally, you can add to favorites if needed in future
+    }
   };
 
   useEffect(() => {
@@ -70,6 +77,8 @@ const ProfileMyFavorites = () => {
             <MyFavoriteCard 
               key={favorite.publication_id} 
               publication={favorite} 
+              userFavorites={favorites} 
+              updateFavorites={updateFavorites} 
             />
           ))
         )}

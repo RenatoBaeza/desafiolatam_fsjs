@@ -1,40 +1,52 @@
-import React from 'react';
-import { Card, Button } from 'react-bootstrap';
+// MyFavoriteCard.jsx
+import React, { useState, useEffect } from 'react';
+import { Card, Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { ENDPOINT } from '../config/constants';
 
-const MyFavoriteCard = ({ favorite, onRemove }) => {
-  // Debugging: Check the favorite object
-  console.log(favorite);
+const MyFavoriteCard = ({ publication, userFavorites, updateFavorites }) => {
+  const [isFavorite, setIsFavorite] = useState(false);
 
-  const handleRemoveFavorite = () => {
-    const token = localStorage.getItem('token');
-    axios.delete(`${ENDPOINT.favorites}/${favorite.publication_id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then(() => {
-        if (onRemove) onRemove(favorite.publication_id);
-      })
-      .catch(error => {
-        console.error("Error removing favorite:", error);
-      });
+  useEffect(() => {
+    setIsFavorite(userFavorites.some(fav => fav.publication_id === publication.publication_id));
+  }, [userFavorites, publication.publication_id]);
+
+  const toggleFavorite = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const config = {
+        headers: { Authorization: `Bearer ${token}` }
+      };
+
+      if (isFavorite) {
+        await axios.delete(`${ENDPOINT.favorites}`, { data: { publication_id: publication.publication_id }, ...config });
+        updateFavorites(publication.publication_id, 'remove');
+        setIsFavorite(false);
+      } else {
+        await axios.post(`${ENDPOINT.favorites}`, { publication_id: publication.publication_id }, config);
+        updateFavorites(publication.publication_id, 'add');
+        setIsFavorite(true);
+      }
+    } catch (error) {
+      console.error("Error updating favorites:", error);
+    }
   };
-
-  // Ensure favorite exists and has the required properties before rendering
-  if (!favorite || !favorite.img_url || !favorite.title) {
-    return null;  // Return nothing if the data is incomplete
-  }
 
   return (
     <Card style={{ width: '18rem', margin: '10px' }}>
-      <Card.Img variant="top" src={favorite.img_url} alt={favorite.title}
-        className="img-fluid" style={{ aspectRatio: '1', objectFit: 'cover' }} />
-      <Card.Body>
-        <Card.Title>{favorite.title}</Card.Title>
-        <Button variant="danger" onClick={handleRemoveFavorite}>
-          Quitar de Favoritos
-        </Button>
-      </Card.Body>
+      <Link to={`/publications/${publication.publication_id}`}>
+        <Card.Img variant="top" src={publication.img_url} alt={publication.title} className="img-fluid" style={{ aspectRatio: '1', objectFit: 'cover' }} />
+        <Card.Body>
+          <Card.Title className="text-dark">{publication.title}</Card.Title>
+        </Card.Body>
+      </Link>
+      <Container className="my-3 pb-2 d-flex justify-content-center">
+        <i className={`fa-${isFavorite ? 'solid' : 'regular'} fa-heart fa-xl mx-2`}
+          onClick={toggleFavorite}
+          style={{ cursor: 'pointer', color: isFavorite ? 'red' : 'gray' }}
+        />
+      </Container>
     </Card>
   );
 };
