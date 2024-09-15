@@ -12,6 +12,7 @@ import Perfil from './views/Profile'
 import ProfileMyPublications from './views/ProfileMyPublications'
 import ProfileMyFavorites from './views/ProfileMyFavorites'
 import Create from './views/Create'
+import Cart from './views/Cart'
 import EditPublication from './views/EditPublication'
 import PublicationDetails from './views/PublicationDetails';
 
@@ -30,6 +31,7 @@ const App = () => {
           <Route path='/ProfileMyPublications' element={<ProfileMyPublications />} />
           <Route path='/ProfileMyFavorites' element={<ProfileMyFavorites />} />
           <Route path='/create' element={<Create />} />
+          <Route path='/cart' element={<Cart />} />
           <Route path="/editpublication/:id" element={<EditPublication />} />
           <Route path='/publications/:id' element={<PublicationDetails />} />
         </Routes>

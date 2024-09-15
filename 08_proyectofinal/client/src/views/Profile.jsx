@@ -71,21 +71,30 @@ const Profile = () => {
           </Spinner>
         ) : (
           <Row className='my-4'>
-          <Col md={6}>
+          <Col md={4}>
             <Card className='mb-4'>
               <Card.Body>
-                <Card.Title>My Publications</Card.Title>
-                <Card.Text>View and manage your published stars.</Card.Text>
-                <Button onClick={() => navigate('/ProfileMyPublications')}>Go to My Publications</Button>
+                <Card.Title>Mis Publicaciones</Card.Title>
+                <Card.Text>Mira y edita tus estrellas publicadas</Card.Text>
+                <Button onClick={() => navigate('/ProfileMyPublications')}>Ir a mis Publicaciones</Button>
               </Card.Body>
             </Card>
           </Col>
-          <Col md={6}>
+          <Col md={4}>
             <Card className='mb-4'>
               <Card.Body>
-                <Card.Title>My Favorites</Card.Title>
-                <Card.Text>See the stars you’ve favorited.</Card.Text>
-                <Button onClick={() => navigate('/ProfileMyFavorites')}>Go to My Favorites</Button>
+                <Card.Title>Mis Favoritos</Card.Title>
+                <Card.Text>Mira tus estrellas añadidas a favoritos</Card.Text>
+                <Button onClick={() => navigate('/ProfileMyFavorites')}>Ir a mis Favoritos</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={4}>
+            <Card className='mb-4'>
+              <Card.Body>
+                <Card.Title>Mi Carrito</Card.Title>
+                <Card.Text>Ver las estrellas que tienes en tu carrito</Card.Text>
+                <Button onClick={() => navigate('/cart')}>Ir a mi Carrito</Button>
               </Card.Body>
             </Card>
           </Col>

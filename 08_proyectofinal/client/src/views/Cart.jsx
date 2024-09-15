@@ -6,10 +6,11 @@ import { ENDPOINT } from '../config/constants';
 import PublicationCard from '../components/PublicationCard';
 import { Spinner } from 'react-bootstrap';
 
-const Home = () => {
+const Cart = () => {
   const { setDeveloper } = useContext(Context);
   const [publications, setPublications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [userFavorites, setUserFavorites] = useState([]);
 
   const getDeveloperData = () => {
     const token = localStorage.getItem('token');
@@ -35,9 +36,35 @@ const Home = () => {
       });
   };
 
+  const fetchFavorites = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      axios.get(ENDPOINT.favorites, { headers: { Authorization: `Bearer ${token}` } })
+        .then(({ data }) => {
+          console.log('Fetched Favorites:', data); // Check if favorites are fetched correctly
+          setUserFavorites(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching favorites:", error);
+        });
+    }
+  };
+
+  const updateFavorites = (publication_id, action) => {
+    setUserFavorites(prevFavorites => {
+      if (action === 'add') {
+        return [...prevFavorites, { publication_id: publication_id }];
+      } else if (action === 'remove') {
+        return prevFavorites.filter(fav => fav.publication_id !== publication_id);
+      }
+      return prevFavorites;
+    });
+  };
+
   useEffect(() => {
     getDeveloperData();
     fetchPublications();
+    fetchFavorites();
   }, []);
 
   return (
@@ -55,8 +82,11 @@ const Home = () => {
       ) : (
         <div className='d-flex flex-wrap justify-content-center'>
           {publications.map(publication => (
-            <PublicationCard key={publication.publication_id} 
-                             publication={publication}
+            <PublicationCard 
+              key={publication.publication_id} 
+              publication={publication} 
+              userFavorites={userFavorites} 
+              updateFavorites={updateFavorites} 
             />
           ))}
         </div>
@@ -65,4 +95,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Cart;

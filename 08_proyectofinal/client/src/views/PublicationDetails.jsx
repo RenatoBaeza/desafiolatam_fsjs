@@ -1,4 +1,3 @@
-// PublicationDetails.jsx
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -9,6 +8,8 @@ const PublicationDetails = () => {
   const { id } = useParams();
   const [publication, setPublication] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [userFavorites, setUserFavorites] = useState([]);
 
   useEffect(() => {
     axios
@@ -21,7 +22,28 @@ const PublicationDetails = () => {
         console.error("Error fetching publication details:", error);
         setLoading(false);
       });
+  
+    fetchFavorites();
   }, [id]);
+  
+  const fetchFavorites = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      axios.get(ENDPOINT.favorites, { headers: { Authorization: `Bearer ${token}` } })
+        .then(({ data }) => {
+          console.log('Fetched Favorites:', data); // Check if favorites are fetched correctly
+          setUserFavorites(data);
+          if (data.some(fav => fav.publication_id === id)) {
+            setIsFavorite(true);
+          } else {
+            setIsFavorite(false);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching favorites:", error);
+        });
+    }
+  };
 
   if (loading) {
     return (
@@ -53,6 +75,38 @@ const PublicationDetails = () => {
   } = publication;
 
   const discountPercentage = (((discount_price / base_price) - 1) * 100).toFixed(0) + '% OFF!';
+
+  const updateFavorites = (publication_id, action) => {
+    setUserFavorites(prevFavorites => {
+      if (action === 'add') {
+        return [...prevFavorites, { publication_id: publication_id }];
+      } else if (action === 'remove') {
+        return prevFavorites.filter(fav => fav.publication_id !== publication_id);
+      }
+      return prevFavorites;
+    });
+  };
+
+  const toggleFavorite = async () => {
+    try {
+      const token = localStorage.getItem('token');  // Fetch token from localStorage
+      const config = {
+        headers: { Authorization: `Bearer ${token}` }
+      };
+  
+      if (isFavorite) {
+        await axios.delete(ENDPOINT.favorites, { data: { publication_id: publication.publication_id }, ...config });
+        updateFavorites(publication.publication_id, 'remove');
+        setIsFavorite(false);
+      } else {
+        await axios.post(ENDPOINT.favorites, { publication_id: publication.publication_id }, config);
+        updateFavorites(publication.publication_id, 'add');
+        setIsFavorite(true);
+      }
+    } catch (error) {
+      console.error("Error updating favorites:", error);
+    }
+  };
 
   return (
     <Container className="py-5">
@@ -90,7 +144,10 @@ const PublicationDetails = () => {
                     <strong>Luminosity:</strong> {luminosity} times the Sun's luminosity
                   </Card.Text>
                   <i className='fa-solid fa-cart-plus fa-xl mx-2' />
-                  <i className="fa-solid fa-heart-circle-plus fa-xl mx-2" />
+                  <i className={`fa-${isFavorite ? 'solid' : 'regular'} fa-heart fa-xl mx-2`}
+                      onClick={toggleFavorite}
+                      style={{ cursor: 'pointer', color: isFavorite ? 'red' : 'gray' }}
+                  />
                   <Button variant="primary" className="mt-3">
                     Añadir al carrito
                   </Button>

@@ -27,6 +27,9 @@ const Navigation = () => {
       <>
         <Link to='/create' className='btn m-1 btn-success'>Crear publicación</Link>
         <Link to='/perfil' className='btn m-1 btn-light'>Mi Perfil</Link>
+        <Link to='/cart'>
+            <i className='fa-solid fa-cart-plus fa-xl mx-2' />
+        </Link>
         <button onClick={logout} className='btn btn-danger'>Salir</button>
       </>
     )
