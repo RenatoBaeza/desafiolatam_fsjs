@@ -148,7 +148,33 @@ const obtenerFavoritosUsuario = async (user_id) => {
     return rows;
 };
 
+const agregarCarrito = async (user_id, publication_id) => {
+    const values = [user_id, publication_id];
+    const consulta = `
+        INSERT INTO CART (user_id, publication_id) VALUES ($1, $2)
+        SET creation_timestamp = CURRENT_TIMESTAMP;`;
+    await pool.query(consulta, values);
+};
+
+const eliminarCarrito = async (user_id, publication_id) => {
+    const values = [user_id, publication_id];
+    const consulta = `DELETE FROM CART WHERE user_id = $1 AND publication_id = $2;`;
+    await pool.query(consulta, values);
+};
+
+const obtenerCarritoUsuario = async (user_id) => {
+    const consulta = `
+            SELECT PUBLICATION_ID, COUNT(*) AS PURCHASES
+            FROM CART
+            WHERE F.user_id = $1
+            GROUP BY 1
+            ORDER BY 2 DESC
+            `;
+    const { rows } = await pool.query(consulta, [user_id]);
+    return rows;
+};
+
 module.exports = { pool, registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion, validateToken,
                     obtenerPublicaciones, obtenerPublicacionesUsuario, obtenerPublicacionPorId, obtenerPublicacionPorIdUser,
-                    agregarFavorito, eliminarFavorito, obtenerFavoritosUsuario
+                    agregarFavorito, eliminarFavorito, obtenerFavoritosUsuario, agregarCarrito, eliminarCarrito, obtenerCarritoUsuario
                 };

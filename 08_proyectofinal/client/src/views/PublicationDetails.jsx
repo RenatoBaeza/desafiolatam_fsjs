@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { ENDPOINT } from "../config/constants";
 import { Container, Row, Col, Card, Spinner, Badge, Button } from "react-bootstrap";
+import { agregarCarrito } from "../../../server/consultas";
 
 const PublicationDetails = () => {
   const { id } = useParams();
@@ -143,14 +144,13 @@ const PublicationDetails = () => {
                     <strong>Radius:</strong> {radius} km <br />
                     <strong>Luminosity:</strong> {luminosity} times the Sun's luminosity
                   </Card.Text>
-                  <i className='fa-solid fa-cart-plus fa-xl mx-2' />
+                  <i className='fa-solid fa-cart-plus fa-xl mx-2'
+                      onClick={addCart}  
+                  />
                   <i className={`fa-${isFavorite ? 'solid' : 'regular'} fa-heart fa-xl mx-2`}
                       onClick={toggleFavorite}
                       style={{ cursor: 'pointer', color: isFavorite ? 'red' : 'gray' }}
                   />
-                  <Button variant="primary" className="mt-3">
-                    Añadir al carrito
-                  </Button>
                 </Card.Body>
               </Col>
             </Row>

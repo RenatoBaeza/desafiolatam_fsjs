@@ -178,4 +178,41 @@ app.get("/favorites", validateToken, async (req, res) => {
     }
 });
 
+app.get("/cart", validateToken, async (req, res) => {
+    try {
+        const email = req.user.email;
+        const usuario = await obtenerUsuario(email);
+        const carrito = await obtenerCarritoUsuario(usuario.user_id);
+        res.send(favoritos);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+app.post("/cart", validateToken, async (req, res) => {
+    try {
+        const email = req.user.email;
+        const usuario = await obtenerUsuario(email);
+        const { publication_id } = req.body;
+        console.log("Publication ID is " + publication_id);
+        await agregarCarrito(usuario.user_id, publication_id);
+        res.status(201).send("Cart added successfully");
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+app.delete("/cart", validateToken, async (req, res) => {
+    try {
+        const email = req.user.email;
+        const usuario = await obtenerUsuario(email);
+        const { publication_id } = req.body;
+
+        await eliminarCarrito(usuario.user_id, publication_id);
+        res.status(200).send("Cart removed successfully");
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 module.exports = app;

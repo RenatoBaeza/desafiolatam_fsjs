@@ -36,15 +36,11 @@ CREATE TABLE FAVORITES (
     FOREIGN KEY (publication_id) REFERENCES PUBLICACIONES(publication_id)
 );
 
-CREATE TABLE PURCHASES (
-    user_id INT NOT NULL,
-    publication_id INT NOT NULL,
-    units INT NOT NULL,
-    money DECIMAL(10, 2) NOT NULL,
-    currency VARCHAR(10) NOT NULL,
+CREATE TABLE CART (
+    user_id VARCHAR(255) NOT NULL,
+    publication_id VARCHAR(255) NOT NULL,
     creation_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(50) NOT NULL,
     PRIMARY KEY (user_id, publication_id),
-    FOREIGN KEY (user_id) REFERENCES USUARIOS(id),
-    FOREIGN KEY (publication_id) REFERENCES PUBLICACIONES(id)
+    FOREIGN KEY (user_id) REFERENCES USUARIOS(user_id),
+    FOREIGN KEY (publication_id) REFERENCES PUBLICACIONES(publication_id)
 );
