@@ -6,5 +6,6 @@ export const ENDPOINT = {
   publications: `${URL_BASE}/publications`,
   perfil: `${URL_BASE}/perfil`,
   myPublications: `${URL_BASE}/my-publications`,
-  favorites: `${URL_BASE}/favorites`
+  favorites: `${URL_BASE}/favorites`,
+  cart: `${URL_BASE}/cart`
 };

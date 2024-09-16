@@ -47,13 +47,7 @@ const Profile = () => {
         setLoading(false);
       });
   };
-
-  const handleDeletePublication = (publicationId) => {
-    setPublications(prevPublications => 
-      prevPublications.filter(publication => publication.publication_id !== publicationId)
-    );
-  };
-
+  
   useEffect(() => {
     getDeveloperData();
     fetchUserPublications();

@@ -40,7 +40,6 @@ CREATE TABLE CART (
     user_id VARCHAR(255) NOT NULL,
     publication_id VARCHAR(255) NOT NULL,
     creation_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (user_id, publication_id),
     FOREIGN KEY (user_id) REFERENCES USUARIOS(user_id),
     FOREIGN KEY (publication_id) REFERENCES PUBLICACIONES(publication_id)
 );

@@ -149,10 +149,11 @@ const obtenerFavoritosUsuario = async (user_id) => {
 };
 
 const agregarCarrito = async (user_id, publication_id) => {
-    const values = [user_id, publication_id];
+    const values = [user_id, publication_id, getCurrentTimestamp()];
     const consulta = `
-        INSERT INTO CART (user_id, publication_id) VALUES ($1, $2)
-        SET creation_timestamp = CURRENT_TIMESTAMP;`;
+        INSERT INTO CART (user_id, publication_id, creation_timestamp) 
+        VALUES ($1, $2, $3);
+        `;
     await pool.query(consulta, values);
 };
 
@@ -164,11 +165,22 @@ const eliminarCarrito = async (user_id, publication_id) => {
 
 const obtenerCarritoUsuario = async (user_id) => {
     const consulta = `
-            SELECT PUBLICATION_ID, COUNT(*) AS PURCHASES
-            FROM CART
-            WHERE F.user_id = $1
-            GROUP BY 1
-            ORDER BY 2 DESC
+        with purchases as (
+            select publication_id, count(*) as cart_units
+            from cart
+        	where user_id = $1
+            group by 1
+        ),
+
+        publications as (
+            select publication_id, title, img_url
+            from publicaciones
+        )
+
+        select purchases.publication_id, cart_units, title, img_url
+        from purchases
+        left join publications
+        on purchases.publication_id = publications.publication_id
             `;
     const { rows } = await pool.query(consulta, [user_id]);
     return rows;

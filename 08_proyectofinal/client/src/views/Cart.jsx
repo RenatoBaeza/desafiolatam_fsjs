@@ -1,97 +1,49 @@
-// Home.jsx
+// Cart.jsx
 import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
-import Context from '../contexts/Context';
 import { ENDPOINT } from '../config/constants';
-import PublicationCard from '../components/PublicationCard';
-import { Spinner } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
 
 const Cart = () => {
-  const { setDeveloper } = useContext(Context);
-  const [publications, setPublications] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [userFavorites, setUserFavorites] = useState([]);
+  const [cart, setCart] = useState([]);
 
-  const getDeveloperData = () => {
+  const getCart = () => {
     const token = localStorage.getItem('token');
-    if (token) {
-      axios.get(ENDPOINT.users, { headers: { Authorization: `Bearer ${token}` } })
-        .then(({ data: [user] }) => setDeveloper({ ...user }))
-        .catch(() => {
-          localStorage.removeItem('token');
-          setDeveloper(null);
-        });
-    }
-  };
-
-  const fetchPublications = () => {
-    axios.get(ENDPOINT.publications)
+    axios.get(ENDPOINT.cart, { headers: { Authorization: `Bearer ${token}` } })
       .then(({ data }) => {
-        setPublications(data);
-        setLoading(false);
+        setCart(data);
       })
-      .catch((error) => {
-        console.error("Error fetching publications:", error);
-        setLoading(false);
+      .catch(error => {
+        console.error('Error fetching cart:', error);
       });
   };
 
-  const fetchFavorites = () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      axios.get(ENDPOINT.favorites, { headers: { Authorization: `Bearer ${token}` } })
-        .then(({ data }) => {
-          console.log('Fetched Favorites:', data); // Check if favorites are fetched correctly
-          setUserFavorites(data);
-        })
-        .catch((error) => {
-          console.error("Error fetching favorites:", error);
-        });
-    }
-  };
-
-  const updateFavorites = (publication_id, action) => {
-    setUserFavorites(prevFavorites => {
-      if (action === 'add') {
-        return [...prevFavorites, { publication_id: publication_id }];
-      } else if (action === 'remove') {
-        return prevFavorites.filter(fav => fav.publication_id !== publication_id);
-      }
-      return prevFavorites;
-    });
-  };
-
   useEffect(() => {
-    getDeveloperData();
-    fetchPublications();
-    fetchFavorites();
+    getCart();
   }, []);
 
   return (
-    <div className='py-5'>
-      <h1>Bienvenido a <span className='fw-bold'>⭐Starstruck</span></h1>
-      <p>¡Compra y vende tu estrella aquí!</p>
-      <h2>Estrellas activamente en venta</h2>
-
-      {loading ? (
-        <div className="d-flex justify-content-center py-5">
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        </div>
-      ) : (
-        <div className='d-flex flex-wrap justify-content-center'>
-          {publications.map(publication => (
-            <PublicationCard 
-              key={publication.publication_id} 
-              publication={publication} 
-              userFavorites={userFavorites} 
-              updateFavorites={updateFavorites} 
-            />
-          ))}
-        </div>
-      )}
-    </div>
+    <Container className="py-5">
+      <h2 className="mb-4">Shopping Cart</h2>
+      <Row>
+        {cart.map((item) => (
+          <Col md={6} lg={4} key={item.publication_id} className="mb-4">
+            <Card className="shadow-sm">
+              <Card.Img
+                variant="top"
+                src={item.img_url}
+                alt={item.title}
+                style={{ height: "200px", objectFit: "cover" }}
+              />
+              <Card.Body>
+                <Card.Title>{item.title}</Card.Title>
+                <Card.Text>Unidades {item.cart_units}</Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    </Container>
   );
 };
 

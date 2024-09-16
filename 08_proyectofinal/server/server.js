@@ -1,6 +1,7 @@
 // Server.js
 const { pool, registrarUsuario, verificarCredenciales, obtenerUsuario, crearPublicacion, validateToken
-    , obtenerPublicaciones, obtenerPublicacionesUsuario, obtenerPublicacionPorId, agregarFavorito, eliminarFavorito, obtenerFavoritosUsuario } = require('./consultas');
+    , obtenerPublicaciones, obtenerPublicacionesUsuario, obtenerPublicacionPorId, agregarFavorito, eliminarFavorito, 
+    obtenerFavoritosUsuario, obtenerCarritoUsuario, agregarCarrito, eliminarCarrito } = require('./consultas');
 const express = require('express');
 const fs = require('fs');
 const jwt = require("jsonwebtoken");
@@ -183,7 +184,7 @@ app.get("/cart", validateToken, async (req, res) => {
         const email = req.user.email;
         const usuario = await obtenerUsuario(email);
         const carrito = await obtenerCarritoUsuario(usuario.user_id);
-        res.send(favoritos);
+        res.send(carrito);
     } catch (error) {
         res.status(500).send(error.message);
     }

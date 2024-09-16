@@ -1,9 +1,9 @@
+// PublicationDetails.jsx
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { ENDPOINT } from "../config/constants";
 import { Container, Row, Col, Card, Spinner, Badge, Button } from "react-bootstrap";
-import { agregarCarrito } from "../../../server/consultas";
 
 const PublicationDetails = () => {
   const { id } = useParams();
@@ -13,9 +13,8 @@ const PublicationDetails = () => {
   const [userFavorites, setUserFavorites] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`${ENDPOINT.publications}/${id}`)
-      .then(({ data }) => {
+    axios.get(`${ENDPOINT.publications}/${id}`)
+      .then(({data}) => {
         setPublication(data);
         setLoading(false);
       })
@@ -76,6 +75,21 @@ const PublicationDetails = () => {
   } = publication;
 
   const discountPercentage = (((discount_price / base_price) - 1) * 100).toFixed(0) + '% OFF!';
+
+  const addCart = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      axios.post(ENDPOINT.cart, { publication_id: publication.publication_id }, { headers: { Authorization: `Bearer ${token}` } })
+        .then(response => {
+          console.log('Item added to cart:', response.data);
+        })
+        .catch(error => {
+          console.error('Error adding item to cart:', error);
+        });
+    } else {
+      console.error('No token found, user is not authorized.');
+    }
+  };
 
   const updateFavorites = (publication_id, action) => {
     setUserFavorites(prevFavorites => {
