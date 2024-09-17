@@ -29,9 +29,9 @@ const Create = () => {
     event.preventDefault();
     const token = localStorage.getItem('token');
     if (!token) {
-      console.error('No token found in localStorage');
+      console.error('No se encontró token en localStorage');
     } else {
-      console.log('Token being used:', token);
+      console.log('Token en uso:', token);
     }
     axios
       .post(ENDPOINT.publications, publicacion, {
@@ -40,12 +40,12 @@ const Create = () => {
         }
       })
       .then(() => {
-        window.alert('Publicación creada con éxito 😀.');
+        window.alert('Publicación creada con éxito');
         setPublicacion(initialForm);
       })
       .catch(({ response: { data } }) => {
         console.error(data);
-        window.alert(`${data.message} 🙁.`);
+        window.alert(`Error: ${data.message}`);
       });
   };
 
@@ -166,7 +166,7 @@ const Create = () => {
             </Col>
             <Col md={4}>
               <Form.Group className='mb-3'>
-                <Form.Label>Diámetro (km)</Form.Label>
+                <Form.Label>Diámetro</Form.Label>
                 <Form.Control
                   name='diameter'
                   value={publicacion.diameter}
@@ -178,7 +178,7 @@ const Create = () => {
             </Col>
             <Col md={4}>
               <Form.Group className='mb-3'>
-                <Form.Label>Radio (km)</Form.Label>
+                <Form.Label>Radio</Form.Label>
                 <Form.Control
                   name='radius'
                   value={publicacion.radius}
@@ -206,9 +206,7 @@ const Create = () => {
             </Col>
           </Row>
 
-          <Button type='submit' variant='success' className='w-40'>
-            Crear Publicación
-          </Button>
+          <Button type='submit' variant='success' className='w-40'>Crear Publicación</Button>
         </Form>
       </Card>
     </div>

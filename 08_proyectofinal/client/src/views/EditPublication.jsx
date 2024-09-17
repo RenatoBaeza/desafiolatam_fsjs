@@ -36,7 +36,7 @@ const EditPublication = () => {
                 setFormData(response.data);
                 setLoading(false);
             } catch (error) {
-                setError("Error fetching publication data");
+                setError("Error buscando la información de la publicación");
                 setLoading(false);
             }
         };
@@ -59,8 +59,8 @@ const EditPublication = () => {
                 navigate('/perfil');
             }, 2000);
         } catch (error) {
-            console.error("Error updating publication:", error);
-            setError("Failed to update publication.");
+            console.error("Error obteniendo publication:", error);
+            setError("Falló obtener publicación");
         }
     };
 
@@ -82,7 +82,6 @@ const EditPublication = () => {
                         {success && <Alert variant="success">¡Publicación actualizada con éxito! Redirigiendo...</Alert>}
                         
                         <Form onSubmit={handleSubmit}>
-                            {/* General Information */}
                             <h4 className='mb-4'>Información General</h4>
                             <Row>
                                 <Col md={6}>
@@ -123,8 +122,6 @@ const EditPublication = () => {
                                     </Form.Group>
                                 </Col>
                             </Row>
-
-                            {/* Description and Image */}
                             <Row>
                                 <Col md={12}>
                                     <Form.Group controlId="formDescription" className="mb-4">
@@ -154,7 +151,6 @@ const EditPublication = () => {
                                 </Col>
                             </Row>
 
-                            {/* Star Details */}
                             <h4 className='mt-4 mb-4'>Detalles de la Estrella</h4>
                             <Row>
                                 <Col md={6}>
@@ -195,7 +191,7 @@ const EditPublication = () => {
                                 </Col>
                                 <Col md={4}>
                                     <Form.Group controlId="formDiameter" className="mb-4">
-                                        <Form.Label>Diámetro (km)</Form.Label>
+                                        <Form.Label>Diámetro</Form.Label>
                                         <Form.Control
                                             type="number"
                                             name="diameter"
@@ -207,7 +203,7 @@ const EditPublication = () => {
                                 </Col>
                                 <Col md={4}>
                                     <Form.Group controlId="formRadius" className="mb-4">
-                                        <Form.Label>Radio (km)</Form.Label>
+                                        <Form.Label>Radio</Form.Label>
                                         <Form.Control
                                             type="number"
                                             name="radius"
@@ -232,9 +228,7 @@ const EditPublication = () => {
                                 </Col>
                             </Row>
 
-                            <Button variant="primary" type="submit" className="w-40">
-                                Actualizar Publicación
-                            </Button>
+                            <Button variant="primary" type="submit" className="w-40">Actualizar Publicación</Button>
                         </Form>
                     </Card>
                 </Col>

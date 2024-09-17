@@ -53,7 +53,6 @@ const ProfileMyFavorites = () => {
     if (action === 'remove') {
       setFavorites(favorites.filter(fav => fav.publication_id !== publicationId));
     } else {
-      // Optionally, you can add to favorites if needed in future
     }
   };
 

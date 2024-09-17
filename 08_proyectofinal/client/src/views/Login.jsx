@@ -6,7 +6,7 @@ import { ENDPOINT } from '../config/constants'
 import Context from '../contexts/Context'
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
-const initialForm = { email: 'docente@desafiolatam.com', password: '123456' }
+const initialForm = { email: '', password: '' }
 
 const Login = () => {
   const navigate = useNavigate()
@@ -30,8 +30,8 @@ const Login = () => {
     .then(({ data }) => {
       console.log('Received token:', data.token);
       localStorage.setItem('token', data.token);
-      console.log('Stored token:', localStorage.getItem('token'));
-      console.log('Token stored in localStorage:', localStorage.getItem('token'));
+      console.log('Token guardado:', localStorage.getItem('token'));
+      console.log('Token guardado en localStorage:', localStorage.getItem('token'));
       window.alert('Usuario identificado con éxito')
       setDeveloper({})
       navigate('/perfil')
@@ -47,7 +47,7 @@ const Login = () => {
       <h1>Iniciar Sesión</h1>
       <hr />
       <div className='form-group mt-1 '>
-        <label>Email address</label>
+        <label>Correo electrónico</label>
         <input
           value={user.email}
           onChange={handleUser}
@@ -58,7 +58,7 @@ const Login = () => {
         />
       </div>
       <div className='form-group mt-1 '>
-        <label>Password</label>
+        <label>Contraseña</label>
         <input
           value={user.password}
           onChange={handleUser}

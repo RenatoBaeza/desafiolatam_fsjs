@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { ENDPOINT } from '../config/constants';
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
@@ -14,7 +14,7 @@ const Cart = () => {
         setCart(data);
       })
       .catch(error => {
-        console.error('Error fetching cart:', error);
+        console.error('Error buscando carrito:', error);
       });
   };
 
@@ -24,7 +24,7 @@ const Cart = () => {
 
   return (
     <Container className="py-5">
-      <h2 className="mb-4">Shopping Cart</h2>
+      <h className="mb-4">Carrito de Compras</h>
       <Row>
         {cart.map((item) => (
           <Col md={6} lg={4} key={item.publication_id} className="mb-4">
@@ -37,7 +37,7 @@ const Cart = () => {
               />
               <Card.Body>
                 <Card.Title>{item.title}</Card.Title>
-                <Card.Text>Unidades {item.cart_units}</Card.Text>
+                <Card.Text>Unidades: {item.cart_units}</Card.Text>
               </Card.Body>
             </Card>
           </Col>

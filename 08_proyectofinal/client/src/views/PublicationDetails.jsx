@@ -31,7 +31,7 @@ const PublicationDetails = () => {
     if (token) {
       axios.get(ENDPOINT.favorites, { headers: { Authorization: `Bearer ${token}` } })
         .then(({ data }) => {
-          console.log('Fetched Favorites:', data); // Check if favorites are fetched correctly
+          console.log('Fetched Favorites:', data);
           setUserFavorites(data);
           if (data.some(fav => fav.publication_id === id)) {
             setIsFavorite(true);

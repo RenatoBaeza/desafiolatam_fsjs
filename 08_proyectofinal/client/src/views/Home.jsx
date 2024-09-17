@@ -48,16 +48,12 @@ const Home = () => {
 
       {loading ? (
         <div className="d-flex justify-content-center py-5">
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
+          <Spinner animation="border" role="status">Loading...</Spinner>
         </div>
       ) : (
         <div className='d-flex flex-wrap justify-content-center'>
           {publications.map(publication => (
-            <PublicationCard key={publication.publication_id} 
-                             publication={publication}
-            />
+            <PublicationCard key={publication.publication_id} publication={publication}/>
           ))}
         </div>
       )}

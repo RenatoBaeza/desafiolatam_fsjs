@@ -29,7 +29,7 @@ const MyFavoriteCard = ({ publication, userFavorites, updateFavorites }) => {
         setIsFavorite(true);
       }
     } catch (error) {
-      console.error("Error updating favorites:", error);
+      console.error("Error actualizando favoritos:", error);
     }
   };
 

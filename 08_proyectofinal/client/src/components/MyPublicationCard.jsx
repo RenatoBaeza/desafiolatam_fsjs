@@ -18,7 +18,7 @@ const MyPublicationCard = ({ publication, onDelete }) => {
       setShowModal(false);
     })
     .catch(error => {
-      console.error("Error deleting publication:", error);
+      console.error("Error borrando publicación:", error);
       setShowModal(false);
     });
   };
@@ -39,7 +39,6 @@ const MyPublicationCard = ({ publication, onDelete }) => {
         </Card.Body>
       </Card>
 
-      {/* Confirmation Modal */}
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Confirmar Borrado</Modal.Title>
@@ -48,12 +47,8 @@ const MyPublicationCard = ({ publication, onDelete }) => {
           ¿Estás seguro que quieres borrar la publicación "{publication.title}"?
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Cancelar
-          </Button>
-          <Button variant="danger" onClick={handleDelete}>
-            Borrar
-          </Button>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>Cancelar</Button>
+          <Button variant="danger" onClick={handleDelete}>Borrar</Button>
         </Modal.Footer>
       </Modal>
     </>

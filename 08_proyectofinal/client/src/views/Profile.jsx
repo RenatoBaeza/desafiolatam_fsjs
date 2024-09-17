@@ -43,7 +43,7 @@ const Profile = () => {
         setLoading(false);
       })
       .catch(error => {
-        console.error("Error fetching user publications:", error);
+        console.error(error);
         setLoading(false);
       });
   };
@@ -60,9 +60,7 @@ const Profile = () => {
       
       <div className='d-flex flex-wrap justify-content-center'>
         {loading ? (
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
+          <Spinner animation="border" role="status"><span className="visually-hidden">Cargando...</span></Spinner>
         ) : (
           <Row className='my-4'>
           <Col md={4}>
@@ -87,13 +85,12 @@ const Profile = () => {
             <Card className='mb-4'>
               <Card.Body>
                 <Card.Title>Mi Carrito</Card.Title>
-                <Card.Text>Ver las estrellas que tienes en tu carrito</Card.Text>
+                <Card.Text>Ver las estrellas que tienes en tu Carrito</Card.Text>
                 <Button onClick={() => navigate('/cart')}>Ir a mi Carrito</Button>
               </Card.Body>
             </Card>
           </Col>
         </Row>
-
         )}
       </div>
     </div>
